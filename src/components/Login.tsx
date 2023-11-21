@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { signInWithEmail } from '../firebase/userManage';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {};
 
 const Login = (props: Props) => {
+  const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('');
+  const navi = useNavigate();
+
+  // const navi = useNavigate();
+  const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+  const passHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPass(e.target.value);
+  };
+  const confirmLogin = () => {
+    signInWithEmail(email, pass);
+
+    navi('/');
+  };
+
   return (
     <section className="h-screen">
       <div className="h-full">
@@ -16,7 +35,7 @@ const Login = (props: Props) => {
           </div>
 
           <div className="mb-12 md:mb-0 md:w-8/12 lg:w-5/12 xl:w-5/12">
-            <form>
+            <form onSubmit={confirmLogin}>
               <div className="flex flex-row items-center justify-center lg:justify-start">
                 <p className="mb-0 mr-4 text-lg">Sign in with</p>
 
@@ -67,9 +86,12 @@ const Login = (props: Props) => {
                 <p className="mx-4 mb-0 text-center font-semibold dark:text-white">Or</p>
               </div>
 
+              {/* 이메일 입력란 */}
               <div className="mb-6">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
                 <input
+                  onChange={emailHandler}
+                  value={email}
                   type="email"
                   id="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -77,9 +99,12 @@ const Login = (props: Props) => {
                   required
                 />
               </div>
+              {/* 패스워드 입력란 */}
               <div className="mb-6">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
                 <input
+                  onChange={passHandler}
+                  value={pass}
                   type="password"
                   id="password"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -103,11 +128,11 @@ const Login = (props: Props) => {
               </div>
 
               <div className="text-center lg:text-left">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Button</button>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">로그인</button>
 
                 <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
                   Don't have an account?
-                  <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                  <a href="/register" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                     Register
                   </a>
                 </p>
