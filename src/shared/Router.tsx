@@ -6,6 +6,7 @@ import MyPage from '../pages/MyPage';
 import ProductDetailPage from '../pages/ProductDetailPage';
 import Login from '../components/Login';
 import Register from '../components/Register';
+import AdminPage from '../pages/AdminPage';
 
 const Router = () => {
   return (
@@ -17,6 +18,7 @@ const Router = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/mypage/:uid" element={<MyPage />} />
           <Route path="/product/:pid" element={<ProductDetailPage />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
