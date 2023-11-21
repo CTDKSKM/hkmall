@@ -8,7 +8,7 @@ const AdminPage = (props: Props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (state !== 3) navigate('/');
+    if (state !== +process.env.REACT_APP_ADMIN_STATE!) navigate('/');
   }, [state]);
 
   if (state !== 3) return <div>잘못된 접근입니다.</div>;

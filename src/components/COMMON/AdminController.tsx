@@ -6,7 +6,7 @@ type Props = {};
 const AdminController = (props: Props) => {
   const navigate = useNavigate();
 
-  const [adminState, setAdminState] = useState(0);
+  const [adminState, setAdminState] = useState<number>(0);
   const [adminString, setAdminString] = useState('');
 
   const handleAdminButton = () => {
@@ -17,10 +17,10 @@ const AdminController = (props: Props) => {
     const handleAdminEvent = (e: KeyboardEvent) => {
       setAdminString((string) => string + e.key);
     };
-    if (adminState === 3) {
+    if (adminState === +process.env.REACT_APP_ADMIN_STATE!) {
       document.addEventListener('keyup', handleAdminEvent);
     }
-    if (adminString === 'admin') {
+    if (adminString === process.env.REACT_APP_ADMIN_STRING) {
       document.removeEventListener('keyup', handleAdminEvent);
       const handleAdminPage = () => {
         const state = adminState;
