@@ -18,8 +18,8 @@ const Router = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/mypage/:uid" element={<MyPage />} />
           <Route path="/product/:pid" element={<ProductDetailPage />} />
-          <Route path="/admin" element={<AdminPage />} />
         </Route>
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </BrowserRouter>
   );
