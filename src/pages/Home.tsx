@@ -1,10 +1,13 @@
 import React from 'react';
 import { PRODUCTS_DUMMY } from '../static/const/productsDummy';
 
+
 type Props = {};
 
 const Home = (props: Props) => {
   const dummy = PRODUCTS_DUMMY.concat(Array.from({ length: 1 }, () => PRODUCTS_DUMMY).flat());
+
+
 
   return (
     <body className="bg-gray-100">

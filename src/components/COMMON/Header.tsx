@@ -25,7 +25,7 @@ const Header = (props: Props) => {
     } else {
       localStorage.removeItem('user');
     }
-    console.log(JSON.parse(localStorage.getItem('user')!));
+    // console.log(JSON.parse(localStorage.getItem('user')!));
   });
 
   return (
