@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { signUpWithEmail } from '../firebase/userManage';
+
 import { useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase/firebase';
 
 type Props = {};
 
@@ -9,6 +11,7 @@ const Register = (props: Props) => {
   const [pass, setPass] = useState('');
   const [rePass, setRePass] = useState('');
   const navi = useNavigate();
+
   const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -18,41 +21,41 @@ const Register = (props: Props) => {
   const rePassHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRePass(e.target.value);
   };
-  const confirmRegister =() => {
-    // const result = signUpWithEmail(email, pass);
-     signUpWithEmail(email, pass);
-    // navi('/login');
-    // TODO: 오류시
 
-    // result
-    //   .then(() => {
-    //     console.log('Signup successful');
-    //     navi('/login');
-    //   })
-    //   .catch((error) => {
-    //     console.error('Signup failed:', error);
-    //     // Handle the error, e.g., show an error message to the user
-    //   });
+  const confirmRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+      alert('회원가입 완료!');
+      navi('/login');
+
+      return userCredential.user;
+    } catch (error) {
+      alert(error);
+      console.error('Error signing up:', error);
+
+      throw error;
+    }
   };
 
   return (
     <form onSubmit={confirmRegister}>
       {/* 이메일 입력란 */}
       <div className="mb-6">
-        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">이메일</label>
         <input
           onChange={emailHandler}
           value={email}
           type="email"
           id="email"
           className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-          placeholder="name@flowbite.com"
+          placeholder="이메일"
           required
         />
       </div>
       {/* 패스워드 입력란 */}
       <div className="mb-6">
-        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
+        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">패스워드</label>
         <input
           onChange={passHandler}
           value={pass}
@@ -64,7 +67,7 @@ const Register = (props: Props) => {
       </div>
       {/* 확인 패스워드 입력란 */}
       <div className="mb-6">
-        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Repeat password</label>
+        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">패드워드 확인</label>
         <input
           onChange={rePassHandler}
           value={rePass}
