@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
 import ProductImageContainer from './ProductImageContainer';
+import { addData, uploadImage } from '../../../utils/fireStore/dataManage';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
 
 type Props = {};
 
@@ -54,7 +56,28 @@ const ProductManage = (props: Props) => {
     setImages(filteredImages);
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    // Firebase Firestore에 상품 정보, Storage에 이미지들 저장
+    const promiseData = addData(name, price, selectedCategory?.name!);
+    promiseData.then((productKey) => {
+      try {
+        images.map((image, key) => {
+          // 이미지 업로드
+          uploadImage(image, key, productKey);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    initData();
+  };
+  // 제품 양식 초기화
+  const initData = () => {
+    setName('');
+    setPrice('');
+    setImages([]);
+    setSelectedCategory({ id: 1, name: '티셔츠' });
+  };
 
   return (
     <div className="relative w-full flex flex-col items-center gap-3">
