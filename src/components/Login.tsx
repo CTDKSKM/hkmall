@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { signInWithEmail } from '../firebase/userManage';
+
 import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase/firebase';
 
 type Props = {};
 
@@ -16,10 +18,20 @@ const Login = (props: Props) => {
   const passHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPass(e.target.value);
   };
-  const confirmLogin = () => {
-    signInWithEmail(email, pass);
-
-    navi('/');
+  const confirmLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+      const user = userCredential.user;
+      console.log('User signed in:', user);
+      alert('로그인 완료!');
+      navi('/');
+      // return userCredential.user;
+    } catch (error) {
+      alert('로그인 실패!');
+      console.error('Error signing in:', error);
+      return;
+    }
   };
 
   return (
@@ -88,27 +100,27 @@ const Login = (props: Props) => {
 
               {/* 이메일 입력란 */}
               <div className="mb-6">
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">이메일</label>
                 <input
                   onChange={emailHandler}
                   value={email}
                   type="email"
                   id="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="john.doe@company.com"
+                  placeholder="이메일"
                   required
                 />
               </div>
               {/* 패스워드 입력란 */}
               <div className="mb-6">
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">패스워드</label>
                 <input
                   onChange={passHandler}
                   value={pass}
                   type="password"
                   id="password"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="•••••••••"
+                  placeholder="••••••"
                   required
                 />
               </div>
@@ -131,9 +143,9 @@ const Login = (props: Props) => {
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">로그인</button>
 
                 <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
-                  Don't have an account?
+                  계정이 없으신가요?
                   <a href="/register" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                    Register
+                    회원가입
                   </a>
                 </p>
               </div>
