@@ -17,18 +17,23 @@ const AdminController = (props: Props) => {
     const handleAdminEvent = (e: KeyboardEvent) => {
       setAdminString((string) => string + e.key);
     };
-    if (adminState === +process.env.REACT_APP_ADMIN_STATE!) {
-      document.addEventListener('keyup', handleAdminEvent);
-    }
-    if (adminString === process.env.REACT_APP_ADMIN_STRING) {
-      document.removeEventListener('keyup', handleAdminEvent);
-      const handleAdminPage = () => {
-        const state = adminState;
 
-        navigate('/admin', { state });
-      };
-      handleAdminPage();
-    }
+    const checkAdmin = () => {
+      if (adminState === +process.env.REACT_APP_ADMIN_STATE!) {
+        document.addEventListener('keyup', handleAdminEvent);
+      }
+      if (adminString === process.env.REACT_APP_ADMIN_STRING) {
+        document.removeEventListener('keyup', handleAdminEvent);
+        const handleAdminPage = () => {
+          const state = adminState;
+
+          navigate('/admin', { state });
+        };
+        handleAdminPage();
+      }
+    };
+
+    checkAdmin();
 
     return () => {
       document.removeEventListener('keyup', handleAdminEvent);

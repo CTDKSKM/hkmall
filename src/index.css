@@ -16,32 +16,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.button-with-ripple {
-  overflow: hidden;
-  position: relative;
-  background-color: aquamarine;
-  display: inline-block; /* 추가: 인라인 블록 요소로 설정 */
-  cursor: pointer; /* 추가: 커서를 포인터로 설정하여 클릭 가능한 것으로 나타냄 */
+.productInputContainer {
+  @apply relative w-[200px] h-[40px] border rounded-lg p-2 text-sm;
 }
 
-.button-with-ripple::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(194, 81, 81, 0.6);
-  transform: scale(0);
-  animation: ripple-animation 0.6s linear;
+.productInput {
+  @apply w-4/5 h-full focus:outline-none;
 }
 
-.button-with-ripple:hover::after,
-.button-with-ripple:active::after {
-  transform: scale(4);
-  opacity: 1;
-}
-
-@keyframes ripple-animation {
-  to {
-    transform: scale(4);
-    opacity: 1;
-  }
+.productInputPlaceHolder {
+  @apply absolute top-1/2 left-2 -translate-y-1/2 pointer-events-none;
 }
