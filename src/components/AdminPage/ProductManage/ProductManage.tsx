@@ -58,11 +58,11 @@ const ProductManage = (props: Props) => {
   const handleSubmit = () => {
     // Firebase Firestore에 상품 정보, Storage에 이미지들 저장
     const promiseData = addData(name, price, selectedCategory?.name!);
-    promiseData.then((productKey) => {
+    promiseData.then((productId) => {
       try {
         images.map((image, key) => {
           // 이미지 업로드
-          uploadImage(image, key, productKey);
+          uploadImage(image, key, productId);
         });
       } catch (error) {
         console.log(error);

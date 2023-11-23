@@ -1,14 +1,40 @@
-import { addDoc, collection, getDocs } from 'firebase/firestore';
-import { db } from '../../firebase/firebase';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import { FirestoreError, addDoc, collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
+import { db, storage } from '../../firebase/firebase';
+import { deleteObject, getDownloadURL, getStorage, list, ref, uploadBytes } from 'firebase/storage';
+import { Product } from '../../static/const/type';
 
 // 'products'모든 데이터 가져오기
 const getAllData = async () => {
-  const querySnapshot = await getDocs(collection(db, 'products'));
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, ' => ', doc.data());
-  });
+  try {
+    const querySnapshot = await getDocs(collection(db, 'products'));
+
+    return await Promise.all(
+      querySnapshot.docs.map(async (doc) => {
+        const imgs: string[] = [];
+
+        const productRef = ref(storage, `products/${doc.id}`);
+        const listResult = await list(productRef);
+        await Promise.all(
+          listResult.items.map(async (imageRef) => {
+            const url = await getDownloadURL(imageRef);
+            imgs.push(url);
+          })
+        );
+
+        const product = {
+          id: doc.id,
+          name: doc.data().name,
+          price: doc.data().price,
+          category: doc.data().category,
+          imgs
+        };
+
+        return product;
+      })
+    );
+  } catch (error) {
+    throw error;
+  }
 };
 
 // 임의의 이름의 데이터를 문서로 저장
@@ -28,11 +54,27 @@ const addData = async (name: string, price: string, category: string) => {
   }
 };
 
+const deleteData = async (id: string) => {
+  try {
+    //storage에서 이미지 삭제
+    const productRef = ref(storage, `products/${id}`);
+    const listResult = await list(productRef);
+    const deleteFilePromises = listResult.items.map((imgRef) => deleteObject(imgRef));
+
+    //firestore에서 문서 삭제
+    const deleteProduct = deleteDoc(doc(db, 'products', id));
+
+    await Promise.all(deleteFilePromises.concat([deleteProduct]));
+  } catch (error) {
+    throw error;
+  }
+};
+
 // Firebase Storage에 이미지 저장
-const uploadImage = async (image: File, key: number, productKey: string) => {
+const uploadImage = async (image: File, key: number, productId: string) => {
   const storage = getStorage();
   try {
-    const storageRef = ref(storage, `products/${productKey}/image_${key}`);
+    const storageRef = ref(storage, `products/${productId}/image_${key}`);
 
     // 'file' comes from the Blob or File API
     uploadBytes(storageRef, image).then((snapshot) => {
@@ -43,4 +85,4 @@ const uploadImage = async (image: File, key: number, productKey: string) => {
   }
 };
 
-export { getAllData, addData, uploadImage };
+export { getAllData, addData, deleteData, uploadImage };
