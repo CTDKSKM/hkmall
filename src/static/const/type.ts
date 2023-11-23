@@ -6,13 +6,13 @@ export interface User {
 }
 
 export interface Product {
-  id: number;
+  id: string;
   name: string;
   category: string;
   price: number;
-  color: string;
-  size: string;
-  brand: string;
-  inventory: number;
   imgs: string[];
+  color?: string;
+  size?: string;
+  brand?: string;
+  inventory?: number;
 }
