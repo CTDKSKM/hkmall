@@ -3,11 +3,12 @@
 import 'firebase/auth';
 import { auth } from './firebase';
 import { User } from '../static/const/type';
+import { HK_USER } from '../static/const/variable';
 
 export const signOut = async () => {
   try {
     await auth.signOut();
-    localStorage.removeItem('hk_user');
+    localStorage.removeItem(HK_USER);
     alert('로그아웃 완료!');
   } catch (error) {
     alert(error);
@@ -17,6 +18,6 @@ export const signOut = async () => {
 };
 
 export const isLogin = () => {
-  const userData = localStorage.getItem('hk_user');
+  const userData = localStorage.getItem(HK_USER);
   return userData == null ? null : (JSON.parse(userData!) as User);
 };

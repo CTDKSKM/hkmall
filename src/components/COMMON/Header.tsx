@@ -3,6 +3,7 @@ import { isLogin, signOut } from '../../firebase/userManage';
 import { auth } from '../../firebase/firebase';
 import { User } from '../../static/const/type';
 import AdminController from './AdminController';
+import { HK_USER } from '../../static/const/variable';
 
 type Props = {};
 
@@ -14,7 +15,7 @@ const Header = (props: Props) => {
   auth.onAuthStateChanged((user) => {
     if (user) {
       localStorage.setItem(
-        'hk_user',
+        HK_USER,
         JSON.stringify({
           uid: user.uid,
           displayName: user.displayName,
@@ -23,7 +24,7 @@ const Header = (props: Props) => {
         } as User)
       );
     } else {
-      localStorage.removeItem('hk_user');
+      localStorage.removeItem(HK_USER);
     }
     // console.log(JSON.parse(localStorage.getItem('user')!));
   });
