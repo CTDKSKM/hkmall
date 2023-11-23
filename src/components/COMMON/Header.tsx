@@ -1,33 +1,50 @@
 import { useNavigate } from 'react-router-dom';
-import { isLogin, signOut } from '../../firebase/userManage';
+import { signOut } from '../../firebase/userManage';
 import { auth } from '../../firebase/firebase';
-import { User } from '../../static/const/type';
 import AdminController from './AdminController';
 import { HK_USER } from '../../static/const/variable';
+import { browserSessionPersistence, onAuthStateChanged, setPersistence } from 'firebase/auth';
+import { useEffect } from 'react';
+import { User } from '../../static/const/type';
+import { useRecoilState } from 'recoil';
+import { currentUserState } from '../../atom/currentUserState';
 
 type Props = {};
 
 const Header = (props: Props) => {
   const navi = useNavigate();
 
-  const info = isLogin();
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
 
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      localStorage.setItem(
-        HK_USER,
-        JSON.stringify({
-          uid: user.uid,
-          displayName: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL
-        } as User)
-      );
-    } else {
-      localStorage.removeItem(HK_USER);
-    }
-    // console.log(JSON.parse(localStorage.getItem('user')!));
-  });
+  useEffect(() => {
+    // 인증 상태 지속성을 세션으로 설정합니다.
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        return onAuthStateChanged(auth, (user) => {
+          // The user is logged in or out
+          if (user) {
+            const curretUser = {
+              uid: user.uid,
+              displayName: user.displayName,
+              email: user.email,
+              created_at: user.metadata.creationTime
+            } as User;
+
+            localStorage.setItem(HK_USER, JSON.stringify(curretUser));
+            setCurrentUser(curretUser);
+            // console.log('User is logged in:', user);
+          } else {
+            localStorage.removeItem(HK_USER);
+            setCurrentUser(null);
+            // console.log('User is logged out:', user);
+          }
+        });
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error('Error setting persistence:', error);
+      });
+  }, []);
 
   return (
     <>
@@ -62,9 +79,9 @@ const Header = (props: Props) => {
         </nav>
 
         <nav className="bg-gray-600 text-white text-end px-5 my">
-          {info ? (
+          {currentUser ? (
             <>
-              {info.email}님, 환영합니다!{' '}
+              {currentUser.email}님, 환영합니다!{' '}
               <form onSubmit={signOut}>
                 <button className="text-red ms-2">로그아웃</button>
               </form>
