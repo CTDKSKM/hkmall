@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 // import { removeUser, signOut } from '../firebase/userManage';
 import { deleteUser } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
+import { HK_USER } from '../static/const/variable';
 
 type Props = {};
 
@@ -14,7 +15,7 @@ const MyPage = (props: Props) => {
     e.preventDefault();
     try {
       await deleteUser(auth.currentUser!);
-      localStorage.removeItem('user');
+      localStorage.removeItem(HK_USER);
       alert('삭제 완료!');
     } catch (error) {
       alert(error);
