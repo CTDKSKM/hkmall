@@ -14,7 +14,7 @@ const Header = (props: Props) => {
   auth.onAuthStateChanged((user) => {
     if (user) {
       localStorage.setItem(
-        'user',
+        'hk_user',
         JSON.stringify({
           uid: user.uid,
           displayName: user.displayName,
@@ -23,7 +23,7 @@ const Header = (props: Props) => {
         } as User)
       );
     } else {
-      localStorage.removeItem('user');
+      localStorage.removeItem('hk_user');
     }
     // console.log(JSON.parse(localStorage.getItem('user')!));
   });

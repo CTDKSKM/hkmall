@@ -7,7 +7,7 @@ import { User } from '../static/const/type';
 export const signOut = async () => {
   try {
     await auth.signOut();
-    localStorage.removeItem('user');
+    localStorage.removeItem('hk_user');
     alert('로그아웃 완료!');
   } catch (error) {
     alert(error);
@@ -17,6 +17,6 @@ export const signOut = async () => {
 };
 
 export const isLogin = () => {
-  const userData = localStorage.getItem('user');
+  const userData = localStorage.getItem('hk_user');
   return userData == null ? null : (JSON.parse(userData!) as User);
 };

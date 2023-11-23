@@ -14,7 +14,7 @@ const MyPage = (props: Props) => {
     e.preventDefault();
     try {
       await deleteUser(auth.currentUser!);
-      localStorage.removeItem('user');
+      localStorage.removeItem('hk_user');
       alert('삭제 완료!');
     } catch (error) {
       alert(error);
