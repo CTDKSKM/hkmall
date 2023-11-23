@@ -1,4 +1,6 @@
-export const PRODUCTS_DUMMY = [
+import { Product } from "./type";
+
+export const PRODUCTS_DUMMY: Product[] = [
   {
     id: 1,
     name: '스트라이프 패턴 티셔츠',

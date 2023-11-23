@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import ProductImageContainer from './ProductImageContainer';
 import { addData, uploadImage } from '../../../utils/fireStore/dataManage';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
 
 type Props = {};
 
