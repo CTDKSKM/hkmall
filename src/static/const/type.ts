@@ -2,7 +2,7 @@ export interface User {
   uid: string;
   displayName: string;
   email: string;
-  photoURL: string;
+  created_at: string;
 }
 
 export interface Product {

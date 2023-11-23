@@ -26,6 +26,7 @@ const Login = (props: Props) => {
       console.log('User signed in:', user);
       alert('로그인 완료!');
       navi('/');
+      
       // return userCredential.user;
     } catch (error) {
       alert('로그인 실패!');

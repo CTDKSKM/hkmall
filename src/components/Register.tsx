@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
+import { FirebaseError } from 'firebase/app';
 
 type Props = {};
 
@@ -25,16 +26,14 @@ const Register = (props: Props) => {
   const confirmRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+      await createUserWithEmailAndPassword(auth, email, pass);
       alert('회원가입 완료!');
       navi('/login');
 
-      return userCredential.user;
-    } catch (error) {
-      alert(error);
-      console.error('Error signing up:', error);
-
-      throw error;
+      signOut(auth);
+    } catch (e) {
+      const a = e as FirebaseError;
+      console.log(a.code);
     }
   };
 
