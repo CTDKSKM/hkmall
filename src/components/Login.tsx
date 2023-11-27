@@ -23,7 +23,7 @@ const Login = (props: Props) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, pass);
 
-      console.log(userCredential)
+      console.log(userCredential);
       const user = userCredential.user;
       console.log('User signed in:', user);
       alert('로그인 완료!');
