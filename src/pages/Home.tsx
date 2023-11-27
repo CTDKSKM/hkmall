@@ -1,20 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useQuery } from '@tanstack/react-query';
 import ProductCard from '../components/COMMON/ProductCard';
+import useProductQuery from '../hooks/useProductQuery';
 import { Product } from '../static/const/type';
-import { getAllData } from '../utils/fireStore/dataManage';
-import { currentCategory } from '../atom/currentCategory';
 import LoadingIndicator from '../components/COMMON/LoadingIndicator';
+import { currentCategory } from '../atom/currentCategory';
 
 type Props = {};
 
 const Home = (props: Props) => {
+  const { isPending, isError, data, error } = useProductQuery();
+
   const category = useRecoilValue(currentCategory);
-  const { isPending, isError, data, error } = useQuery<Product[]>({
-    queryKey: ['getAllData'],
-    queryFn: getAllData
-  });
 
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
@@ -31,7 +28,7 @@ const Home = (props: Props) => {
   }
 
   if (isError) {
-    return <span>Error: {error.message}</span>;
+    return <span>Error: {error!.message}</span>;
   }
 
   return (

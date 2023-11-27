@@ -4,20 +4,20 @@ import { deleteObject, getDownloadURL, getStorage, list, ref, uploadBytes } from
 import { Product } from '../../static/const/type';
 
 // 'products'모든 데이터 가져오기
-const getAllData = async () => {
+const getAllProductData = async (): Promise<Product[]> => {
   try {
     const querySnapshot = await getDocs(collection(db, 'products'));
 
     return await Promise.all(
       querySnapshot.docs.map(async (doc) => {
-        const imgs: string[] = [];
-
         const productRef = ref(storage, `products/${doc.id}`);
         const listResult = await list(productRef);
+        const imgs: string[] = Array.from({ length: listResult.items.length });
+
         await Promise.all(
-          listResult.items.map(async (imageRef) => {
+          listResult.items.map(async (imageRef, idx) => {
             const url = await getDownloadURL(imageRef);
-            imgs.push(url);
+            imgs[idx] = url;
           })
         );
 
@@ -38,7 +38,7 @@ const getAllData = async () => {
 };
 
 // 임의의 이름의 데이터를 문서로 저장
-const addData = async (name: string, price: string, category: string) => {
+const addProduct = async (name: string, price: string, category: string): Promise<string> => {
   // 'products' 문서에 해당 값을 추가합니다.
 
   try {
@@ -54,7 +54,7 @@ const addData = async (name: string, price: string, category: string) => {
   }
 };
 
-const deleteData = async (id: string) => {
+const deleteProduct = async (id: string) => {
   try {
     //storage에서 이미지 삭제
     const productRef = ref(storage, `products/${id}`);
@@ -65,6 +65,8 @@ const deleteData = async (id: string) => {
     const deleteProduct = deleteDoc(doc(db, 'products', id));
 
     await Promise.all(deleteFilePromises.concat([deleteProduct]));
+
+    alert('삭제완료!');
   } catch (error) {
     throw error;
   }
@@ -85,4 +87,4 @@ const uploadImage = async (image: File, key: number, productId: string) => {
   }
 };
 
-export { getAllData, addData, deleteData, uploadImage };
+export { getAllProductData, addProduct, deleteProduct, uploadImage };
