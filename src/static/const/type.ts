@@ -16,3 +16,9 @@ export interface Product {
   brand?: string;
   inventory?: number;
 }
+export enum Category {
+  전체 = '전체',
+  티셔츠 = '티셔츠',
+  트레이닝복 = '트레이닝복',
+  모자 = '모자'
+}

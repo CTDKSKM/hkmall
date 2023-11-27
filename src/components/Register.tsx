@@ -5,6 +5,8 @@ import { createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
 import { FirebaseError } from 'firebase/app';
 
+import AlertIndicator from './COMMON/AlertIndicator';
+
 type Props = {};
 
 const Register = (props: Props) => {
@@ -12,6 +14,7 @@ const Register = (props: Props) => {
   const [pass, setPass] = useState('');
   const [rePass, setRePass] = useState('');
   const navi = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
 
   const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -32,15 +35,31 @@ const Register = (props: Props) => {
 
       signOut(auth);
     } catch (e) {
-      const a = e as FirebaseError;
-      console.log(a.code);
+      const error = e as FirebaseError;
+
+      switch (error.code) {
+        case 'auth/weak-password':
+          setErrorMessage('6자리 이상의 비밀번호를 입력해주시오.');
+          break;
+        case 'auth/invalid-email': {
+          setErrorMessage('유효한 이메일을 사용해주세요.');
+          break;
+        }
+        case 'auth/email-already-in-use':
+          setErrorMessage('이미 사용중인 이메일입니다.');
+          break;
+      }
     }
+    setTimeout(() => {
+      setErrorMessage('');
+    }, 3000);
   };
 
   return (
-    <form onSubmit={confirmRegister}>
+    <form onSubmit={confirmRegister} className="h-[1000px]">
+      {errorMessage && <AlertIndicator>{errorMessage}</AlertIndicator>}
       {/* 이메일 입력란 */}
-      <div className="mb-6">
+      <div className="mb-6 justify-center items-center">
         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">이메일</label>
         <input
           onChange={emailHandler}
@@ -76,7 +95,8 @@ const Register = (props: Props) => {
           required
         />
       </div>
-      <div className="flex items-start mb-6">
+      {/* 가입 조항 체크박스 */}
+      {/* <div className="flex items-start mb-6">
         <div className="flex items-center h-5">
           <input
             id="terms"
@@ -92,7 +112,7 @@ const Register = (props: Props) => {
             terms and conditions
           </a>
         </label>
-      </div>
+      </div> */}
       <button
         type="submit"
         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
