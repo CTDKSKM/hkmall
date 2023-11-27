@@ -1,41 +1,32 @@
 import ProductCard from '../components/COMMON/ProductCard';
+import useProductQuery from '../hooks/useProductQuery';
 import { Product } from '../static/const/type';
-import { getAllData } from '../utils/fireStore/dataManage';
-import { useQuery } from '@tanstack/react-query';
 
 type Props = {};
 
-
-
 const Home = (props: Props) => {
-  const { isPending, isError, data, error } = useQuery({
-    queryKey: ['getAllData'],
-    queryFn: getAllData
-  });
+  const { data } = useProductQuery();
 
+  if (typeof data === 'object') {
+    const productData = data as Product[];
 
-  if (isPending) {
-    return <span>Loading...</span>;
-  }
+    return (
+      <body className="bg-gray-100">
+        <div className="h-120 flex items-center justify-center">
+          {/* 쇼핑몰 이미지 그리드 */}
+          <div className="grid-cols-1 sm:grid md:grid-cols-4 ">
+            {/* 카드 반복 */}
 
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
-
-  return (
-    <body className="bg-gray-100">
-      <div className="h-120 flex items-center justify-center">
-        {/* 쇼핑몰 이미지 그리드 */}
-        <div className="grid-cols-1 sm:grid md:grid-cols-4 ">
-          {/* 카드 반복 */}
-
-          {data.map((item: Product, key: number) => (
-            <ProductCard item={item} key={key} />
-          ))}
+            {productData.length ? (
+              productData.map((item: Product, key: number) => <ProductCard item={item} key={key} />)
+            ) : (
+              <div>상품이 없습니다.</div>
+            )}
+          </div>
         </div>
-      </div>
-    </body>
-  );
+      </body>
+    );
+  } else return <>{data}</>;
 };
 
 export default Home;
