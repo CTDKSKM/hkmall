@@ -21,7 +21,6 @@ const Header = (props: Props) => {
     setPersistence(auth, browserSessionPersistence)
       .then(() => {
         return onAuthStateChanged(auth, (user) => {
-          // The user is logged in or out
           if (user) {
             const curretUser = {
               uid: user.uid,
@@ -30,11 +29,11 @@ const Header = (props: Props) => {
               created_at: user.metadata.creationTime
             } as User;
 
-            localStorage.setItem(HK_USER, JSON.stringify(curretUser));
+            sessionStorage.setItem(HK_USER, JSON.stringify(curretUser));
             setCurrentUser(curretUser);
             // console.log('User is logged in:', user);
           } else {
-            localStorage.removeItem(HK_USER);
+            sessionStorage.removeItem(HK_USER);
             setCurrentUser(null);
             // console.log('User is logged out:', user);
           }

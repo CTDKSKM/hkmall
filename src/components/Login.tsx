@@ -22,12 +22,12 @@ const Login = (props: Props) => {
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+
+      console.log(userCredential)
       const user = userCredential.user;
       console.log('User signed in:', user);
       alert('로그인 완료!');
       navi('/');
-      
-      // return userCredential.user;
     } catch (error) {
       alert('로그인 실패!');
       console.error('Error signing in:', error);
