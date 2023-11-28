@@ -68,30 +68,27 @@ const Header = (props: Props) => {
             <li>
               <button onClick={() => navi('/product/1')}>상품페이지로</button>
             </li>
-            <li>
-              <button onClick={() => navi('/mypage/1')}>마이</button>
-            </li>
           </ul>
 
           {/* 상품 카테고리 메뉴 */}
           <ul className="flex justify-between space-x-4 bg-gray-700">
             <li>
-              <button className="hover:text-gray-300" onClick={() => setCategory(Category.전체)}>
+              <button className="hover:text-gray-300" onClick={() => setCategory(Category.ALL)}>
                 전체
               </button>
             </li>
             <li>
-              <button className="hover:text-gray-300" onClick={() => setCategory(Category.모자)}>
+              <button className="hover:text-gray-300" onClick={() => setCategory(Category.HAT)}>
                 모자
               </button>
             </li>
             <li>
-              <button className="hover:text-gray-300" onClick={() => setCategory(Category.티셔츠)}>
+              <button className="hover:text-gray-300" onClick={() => setCategory(Category.T_SHIRTS)}>
                 티셔츠
               </button>
             </li>
             <li>
-              <button className="hover:text-gray-300" onClick={() => setCategory(Category.트레이닝복)}>
+              <button className="hover:text-gray-300" onClick={() => setCategory(Category.TRAINING_CLOTHS)}>
                 트레이닝복
               </button>
             </li>
@@ -102,9 +99,14 @@ const Header = (props: Props) => {
               {currentUser ? (
                 <>
                   {currentUser.email}님, 환영합니다!{' '}
-                  <form onSubmit={signOut}>
-                    <button className="text-red ms-2">로그아웃</button>
-                  </form>
+                  <div className="flex justify-end">
+                    <button className="text-red ms-2 bg-gray-500" onClick={() => navi('/mypage/1')}>
+                      마이페이지
+                    </button>
+                    <form onSubmit={signOut}>
+                      <button className="text-red ms-2 bg-red-800">로그아웃</button>
+                    </form>
+                  </div>
                 </>
               ) : (
                 <>
