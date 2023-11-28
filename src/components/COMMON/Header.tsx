@@ -9,6 +9,7 @@ import { Category, User } from '../../static/const/type';
 import { useRecoilState } from 'recoil';
 import { currentUserState } from '../../atom/currentUserState';
 import { currentCategory } from '../../atom/currentCategory';
+import SearchBox from '../SearchPage/SearchBox';
 
 type Props = {};
 
@@ -52,10 +53,16 @@ const Header = (props: Props) => {
     <>
       <AdminController />
       <header className="absolute top-0 left-0 w-full">
-        <div className="bg-blue-500 text-white py-8 text-center">
-          <h1 className="text-4xl font-bold hover:cursor-pointer" onClick={() => navi('/')}>
-            HK Mall
-          </h1>
+        <div className="sm:flex-col flex items-center bg-blue-500 text-white py-8 text-center">
+          <div className="self-start pl-5">
+            <h1 className="text-4xl font-bold hover:cursor-pointer" onClick={() => navi('/')}>
+              HK Mall
+            </h1>
+          </div>
+
+          <div className="self-center">
+            <SearchBox />
+          </div>
         </div>
 
         <nav className="bg-gray-800 text-white py-4 flex justify-between items-center px-5">
