@@ -14,7 +14,8 @@ export const PRODUCTS_DUMMY: Product[] = [
       'https://tecdn.b-cdn.net/img/new/standard/city/041.webp',
       'https://tecdn.b-cdn.net/img/new/standard/city/041.webp',
       'https://tecdn.b-cdn.net/img/new/standard/city/041.webp'
-    ]
+    ],
+    like: 0
   },
   {
     id: '2',
@@ -25,7 +26,8 @@ export const PRODUCTS_DUMMY: Product[] = [
     size: 'S',
     brand: '모던룩',
     inventory: 80,
-    imgs: ['https://tecdn.b-cdn.net/img/new/standard/city/041.webp']
+    imgs: ['https://tecdn.b-cdn.net/img/new/standard/city/041.webp'],
+    like: 0
   },
   {
     id: '3',
@@ -36,6 +38,7 @@ export const PRODUCTS_DUMMY: Product[] = [
     size: 'L',
     brand: '에스쁘아',
     inventory: 120,
-    imgs: ['https://tecdn.b-cdn.net/img/new/standard/city/041.webp']
+    imgs: ['https://tecdn.b-cdn.net/img/new/standard/city/041.webp'],
+    like: 0
   }
 ];
