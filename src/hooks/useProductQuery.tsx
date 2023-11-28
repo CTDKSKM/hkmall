@@ -9,6 +9,7 @@ const useProductQuery = () => {
   const { isPending, isError, data, error } = useQuery({
     queryKey: [QUERY_KEY],
     queryFn: getAllProductData
+    // staleTime: 60 * 1000,
   });
 
   const deleteProductMutation = useMutation({
