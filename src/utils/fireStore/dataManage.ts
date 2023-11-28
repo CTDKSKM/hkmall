@@ -26,7 +26,8 @@ const getAllProductData = async (): Promise<Product[]> => {
           name: doc.data().name,
           price: doc.data().price,
           category: doc.data().category,
-          imgs
+          imgs,
+          like: doc.data().like
         };
 
         return product;
@@ -38,14 +39,15 @@ const getAllProductData = async (): Promise<Product[]> => {
 };
 
 // 임의의 이름의 데이터를 문서로 저장
-const addProduct = async (name: string, price: string, category: string): Promise<string> => {
+const addProduct = async (name: string, price: string, category: string, like: number): Promise<string> => {
   // 'products' 문서에 해당 값을 추가합니다.
 
   try {
     const docRef = await addDoc(collection(db, 'products'), {
       name,
       price,
-      category
+      category,
+      like
     });
     alert('상품 등록 완료!');
     return docRef.id;
@@ -53,6 +55,7 @@ const addProduct = async (name: string, price: string, category: string): Promis
     throw error;
   }
 };
+//
 
 const deleteProduct = async (id: string) => {
   try {
