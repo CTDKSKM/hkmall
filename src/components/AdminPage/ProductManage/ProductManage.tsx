@@ -57,7 +57,7 @@ const ProductManage = (props: Props) => {
 
   const handleSubmit = () => {
     // Firebase Firestore에 상품 정보, Storage에 이미지들 저장
-    const promiseData = addProduct(name, price, selectedCategory?.name!);
+    const promiseData = addProduct(name, price, selectedCategory?.name!, 0);
     promiseData.then((productId) => {
       try {
         images.map((image, key) => {

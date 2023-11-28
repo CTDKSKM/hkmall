@@ -15,6 +15,7 @@ export interface Product {
   size?: string;
   brand?: string;
   inventory?: number;
+  like: number;
 }
 export enum Category {
   ALL = '전체',

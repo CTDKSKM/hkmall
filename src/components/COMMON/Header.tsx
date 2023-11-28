@@ -65,9 +65,9 @@ const Header = (props: Props) => {
                 홈
               </a>
             </li>
-            <li>
+            {/* <li>
               <button onClick={() => navi('/product/1')}>상품페이지로</button>
-            </li>
+            </li> */}
           </ul>
 
           {/* 상품 카테고리 메뉴 */}
