@@ -1,22 +1,23 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ProductImageContainer from './ProductImageContainer';
-import { addProduct, uploadImage } from '../../../utils/fireStore/dataManage';
+import useProductQuery from '../../../hooks/useProductQuery';
 
 type Props = {};
 
+const categories = [
+  { id: 1, name: '티셔츠' },
+  { id: 2, name: '트레이닝복' },
+  { id: 3, name: '모자' }
+  // 추가 카테고리들...
+];
 const ProductManage = (props: Props) => {
+  const { addProductMutation } = useProductQuery();
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [isNameInputFocused, setIsNameInputFocused] = useState(false);
   const [isPriceInputFocused, setIsPriceInputFocused] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const imgRef = useRef<HTMLInputElement>(null);
-  const categories = [
-    { id: 1, name: '티셔츠' },
-    { id: 2, name: '트레이닝복' },
-    { id: 3, name: '모자' }
-    // 추가 카테고리들...
-  ];
 
   // 선택된 카테고리 상태
   const [selectedCategory, setSelectedCategory] = useState<{ id: number; name: string }>();
@@ -44,7 +45,7 @@ const ProductManage = (props: Props) => {
     }
   };
 
-  const addImage = () => {
+  const clickImageInput = () => {
     if (imgRef.current) {
       imgRef.current.click();
     }
@@ -55,20 +56,9 @@ const ProductManage = (props: Props) => {
     setImages(filteredImages);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Firebase Firestore에 상품 정보, Storage에 이미지들 저장
-    const promiseData = addProduct(name, price, selectedCategory?.name!, 0);
-    promiseData.then((productId) => {
-      try {
-        images.map((image, key) => {
-          // 이미지 업로드
-          uploadImage(image, key, productId);
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    });
-    initData();
+    addProductMutation.mutate({ name, price, category: selectedCategory?.name!, like: 0, images });
   };
   // 제품 양식 초기화
   const initData = () => {
@@ -77,6 +67,9 @@ const ProductManage = (props: Props) => {
     setImages([]);
     setSelectedCategory({ id: 1, name: '티셔츠' });
   };
+  useEffect(() => {
+    if (addProductMutation.isSuccess) initData();
+  }, [addProductMutation.isSuccess]);
 
   return (
     <div className="relative w-full flex flex-col items-center gap-3">
@@ -140,7 +133,7 @@ const ProductManage = (props: Props) => {
         <ProductImageContainer images={images} deleteImage={deleteImage} />
         <button
           className="w-[250px] h-[300px] m-auto border rounded-xl flex justify-center items-center hover:border-blue-300"
-          onClick={addImage}
+          onClick={clickImageInput}
         >
           이미지 추가
         </button>
