@@ -88,7 +88,19 @@ const getUserLikes = async (uid: string, mode: 'like' | 'basket'): Promise<Produ
 };
 
 // 임의의 이름의 데이터를 문서로 저장
-const addProduct = async (name: string, price: string, category: string, like: number): Promise<string> => {
+const addProduct = async ({
+  name,
+  price,
+  category,
+  like,
+  images
+}: {
+  name: string;
+  price: string;
+  category: string;
+  like: number;
+  images: File[];
+}) => {
   // 'products' 문서에 해당 값을 추가합니다.
 
   try {
@@ -98,9 +110,14 @@ const addProduct = async (name: string, price: string, category: string, like: n
       category,
       like
     });
+    images.map((image, key) => {
+      // 이미지 업로드
+      uploadImage(image, key, docRef.id);
+    });
     alert('상품 등록 완료!');
-    return docRef.id;
   } catch (error) {
+    alert('상품 등록에 실패하였습니다');
+
     throw error;
   }
 };

@@ -10,7 +10,7 @@ import { productData } from '../atom/productData';
 type Props = {};
 
 const Home = (props: Props) => {
-  const { isPending, isError, data, error } = useProductQuery();
+  const { isLoading, isError, data, error } = useProductQuery();
 
   const category = useRecoilValue(currentCategory);
   const setData = useSetRecoilState(productData);
@@ -26,7 +26,7 @@ const Home = (props: Props) => {
     }
   }, [category, data]);
 
-  if (isPending) {
+  if (isLoading) {
     return <LoadingIndicator />;
   }
 
