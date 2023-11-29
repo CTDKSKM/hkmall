@@ -1,17 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import ProductImageSlider from '../components/ProductDetailPage/ProductImageSlider';
 import { AiFillHeart, AiFillShopping } from 'react-icons/ai';
 import { Category, Product } from '../static/const/type';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { currentCategory } from '../atom/currentCategory';
+import { changeProductState, hasPushedLike } from '../utils/fireStore/userInteract';
+import { currentUserState } from '../atom/currentUserState';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {};
 
 const ProductDetailPage = (props: Props) => {
-  const [click, setClick] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
   const { state: detailData }: { state: Product } = useLocation();
   const setCategory = useSetRecoilState(currentCategory);
+  const currentUser = useRecoilValue(currentUserState);
+  const navi = useNavigate();
+
+  // 좋아요 클릭 핸들러
+  const clickLikeHandler = () => {
+    if (currentUser) {
+      changeProductState(currentUser?.uid, detailData.id, 'add_like');
+      setIsLiked((prev) => !prev);
+    } else navi('/login');
+  };
+
+  // 장바구니 클릭 핸들러
+  const addShoppingBasket = () => {
+    if (currentUser) {
+      changeProductState(currentUser?.uid, detailData.id, 'add_basket');
+    } else navi('/login');
+  };
+
+  useEffect(() => {
+    hasPushedLike(currentUser?.uid!, detailData.id).then((data) => {
+      try {
+        setIsLiked(data!);
+      } catch {}
+    });
+  }, []);
   return (
     <div className="w-full lg:flex justify-between h-screen">
       <div className="lg:w-3/5">
@@ -48,12 +76,12 @@ const ProductDetailPage = (props: Props) => {
         </div>
 
         <div className="mt-5 flex">
-          <button className="bg-black text-white text-4xl p-5">바로구매</button>
+          <button className="bg-black text-white text-4xl p-5">{currentUser ? '바로구매' : '회원전용'}</button>
 
-          <div className="p-5 border-black border-2 hover:cursor-pointer" onClick={() => setClick((prev) => !prev)}>
-            <AiFillHeart size={30} color={click ? 'red' : 'black'} />
+          <div className="p-5 border-black border-2 hover:cursor-pointer" onClick={clickLikeHandler}>
+            <AiFillHeart size={30} color={isLiked ? 'red' : 'black'} />
           </div>
-          <div className="p-5 border-black border-2 hover:cursor-pointer">
+          <div className="p-5 border-black border-2 hover:cursor-pointer" onClick={addShoppingBasket}>
             <AiFillShopping size={30} />
           </div>
         </div>

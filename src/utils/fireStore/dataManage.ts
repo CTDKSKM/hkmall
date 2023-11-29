@@ -1,6 +1,6 @@
-import { FirestoreError, addDoc, collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
+import { FirestoreError, addDoc, collection, deleteDoc, doc, getDoc, getDocs } from 'firebase/firestore';
 import { db, storage } from '../../firebase/firebase';
-import { deleteObject, getDownloadURL, getStorage, list, ref, uploadBytes } from 'firebase/storage';
+import { deleteObject, getDownloadURL, getStorage, list, listAll, ref, uploadBytes } from 'firebase/storage';
 import { Product } from '../../static/const/type';
 
 // 'products'모든 데이터 가져오기
@@ -35,6 +35,53 @@ const getAllProductData = async (): Promise<Product[]> => {
     );
   } catch (error) {
     throw error;
+  }
+};
+const getUserLikes = async (uid: string): Promise<Product[]> => {
+  try {
+    const userInteractDocRef = doc(db, 'user_interact', uid);
+    const userInteractDocSnapshot = await getDoc(userInteractDocRef);
+
+    if (userInteractDocSnapshot.exists()) {
+      const likeList = userInteractDocSnapshot.data()?.likedProducts || [];
+      console.log('User Likes:', likeList);
+
+      const productList = await Promise.all(
+        likeList.map(async (pid: string) => {
+          const productDocRef = doc(db, 'products', pid);
+          const productDocSnapshot = await getDoc(productDocRef);
+
+          if (productDocSnapshot.exists()) {
+            const listResult = await listAll(ref(storage, `products/${pid}`));
+            const imgs: string[] = await Promise.all(
+              listResult.items.map(async (imageRef) => getDownloadURL(imageRef))
+            );
+
+            return {
+              id: pid,
+              name: productDocSnapshot.data().name,
+              price: productDocSnapshot.data().price,
+              category: productDocSnapshot.data().category,
+              imgs,
+              like: productDocSnapshot.data().like
+            };
+          } else {
+            console.log(`Product with ID ${pid} does not exist.`);
+            return null;
+          }
+        })
+      );
+
+      const filteredProductList = productList.filter((product) => product !== null);
+      console.log('Product List:', filteredProductList);
+      return filteredProductList;
+    } else {
+      console.log('User document does not exist.');
+      return [];
+    }
+  } catch (error) {
+    console.error('Error getting user likes:', error);
+    return [];
   }
 };
 
@@ -90,4 +137,4 @@ const uploadImage = async (image: File, key: number, productId: string) => {
   }
 };
 
-export { getAllProductData, addProduct, deleteProduct, uploadImage };
+export { getAllProductData, getUserLikes, addProduct, deleteProduct, uploadImage };

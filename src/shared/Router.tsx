@@ -8,6 +8,8 @@ import Login from '../components/Login';
 import Register from '../components/Register';
 import AdminPage from '../pages/AdminPage';
 import SearchPage from '../pages/SearchPage';
+import MyProductLike from '../pages/MyProductLike';
+import MyProductBasket from '../pages/MyProductBasket';
 
 const Router = () => {
   return (
@@ -18,6 +20,8 @@ const Router = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/mypage/:uid" element={<MyPage />} />
+          <Route path="/mypage/like" element={<MyProductLike />} />
+          <Route path="/mypage/basket" element={<MyProductBasket />} />
           <Route path="/products/:pid" element={<ProductDetailPage />} />
           <Route path="/search" element={<SearchPage />} />
         </Route>
