@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FacebookAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
+import InputField from './COMMON/InputField';
 
 type Props = {};
 
@@ -164,31 +165,23 @@ const Login = (props: Props) => {
               </div>
 
               {/* 이메일 입력란 */}
-              <div className="mb-6">
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">이메일</label>
-                <input
-                  onChange={emailHandler}
-                  value={email}
-                  type="email"
-                  id="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="이메일"
-                  required
-                />
-              </div>
+              <InputField
+                label="이메일"
+                type="email"
+                value={email}
+                onChange={emailHandler}
+                placeholder="이메일"
+                required
+              />
               {/* 패스워드 입력란 */}
-              <div className="mb-6">
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">패스워드</label>
-                <input
-                  onChange={passHandler}
-                  value={pass}
-                  type="password"
-                  id="password"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="••••••"
-                  required
-                />
-              </div>
+              <InputField
+                label="패스워드"
+                type="password"
+                value={pass}
+                onChange={passHandler}
+                placeholder="••••••"
+                required
+              />
 
               <div className="mb-6 flex items-center justify-between">
                 <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">

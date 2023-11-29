@@ -6,7 +6,7 @@ import { HK_USER } from '../../static/const/variable';
 import { browserSessionPersistence, onAuthStateChanged, setPersistence } from 'firebase/auth';
 import { useEffect } from 'react';
 import { Category, User } from '../../static/const/type';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { currentUserState } from '../../atom/currentUserState';
 import { currentCategory } from '../../atom/currentCategory';
 import SearchBox from '../SearchPage/SearchBox';
@@ -18,7 +18,7 @@ const Header = (props: Props) => {
 
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
 
-  const [_, setCategory] = useRecoilState(currentCategory);
+  const setCategory = useSetRecoilState(currentCategory);
 
   useEffect(() => {
     // 인증 상태 지속성을 세션으로 설정합니다.
