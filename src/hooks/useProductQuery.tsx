@@ -1,6 +1,6 @@
 import React from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { addProduct, deleteProduct, getAllProductData } from '../utils/fireStore/dataManage';
+import { deleteProduct, getAllProductData } from '../utils/fireStore/dataManage';
 
 const QUERY_KEY = 'getAllProduct';
 const useProductQuery = () => {
