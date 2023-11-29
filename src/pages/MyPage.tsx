@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { deleteUser } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
 import { HK_USER } from '../static/const/variable';
-import { AiFillHeart, AiFillShopping } from 'react-icons/ai';
 import { currentUserState } from '../atom/currentUserState';
 import { useRecoilValue } from 'recoil';
 

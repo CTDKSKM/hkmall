@@ -4,8 +4,10 @@ import { currentUserState } from '../atom/currentUserState';
 import { useRecoilValue } from 'recoil';
 import ProductCard from '../components/COMMON/ProductCard';
 import { Product } from '../static/const/type';
-import { PRODUCTS_DUMMY } from '../static/const/productsDummy';
+
 import useUserLikesQuery from '../hooks/useUserLikeQuery';
+
+import LoadingIndicator from '../components/COMMON/LoadingIndicator';
 
 type Props = {};
 
@@ -13,13 +15,20 @@ const MyProductLike = (props: Props) => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const user = useRecoilValue(currentUserState);
 
-  const { data, isLoading, isError } = useUserLikesQuery(user?.uid || '');
+  const { data, isLoading, isError } = useUserLikesQuery(user?.uid || '', 'like');
 
   useEffect(() => {
     if (data) {
       setFilteredProducts(data);
     }
-  }, []);
+  }, [data]);
+
+  if (isLoading) {
+    return <LoadingIndicator />;
+  }
+  if (isError) {
+    console.log('에러가 발생했습니다');
+  }
 
   return (
     <div className="lg:w-1/3 h-screen mt-10">

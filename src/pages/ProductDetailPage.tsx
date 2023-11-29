@@ -8,6 +8,7 @@ import { currentCategory } from '../atom/currentCategory';
 import { changeProductState, hasPushedLike } from '../utils/fireStore/userInteract';
 import { currentUserState } from '../atom/currentUserState';
 import { useNavigate } from 'react-router-dom';
+import CofirmationBox from '../components/COMMON/CofirmationBox';
 
 type Props = {};
 
@@ -26,13 +27,6 @@ const ProductDetailPage = (props: Props) => {
     } else navi('/login');
   };
 
-  // 장바구니 클릭 핸들러
-  const addShoppingBasket = () => {
-    if (currentUser) {
-      changeProductState(currentUser?.uid, detailData.id, 'add_basket');
-    } else navi('/login');
-  };
-
   useEffect(() => {
     hasPushedLike(currentUser?.uid!, detailData.id).then((data) => {
       try {
@@ -40,6 +34,22 @@ const ProductDetailPage = (props: Props) => {
       } catch {}
     });
   }, []);
+
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
+  // 장바구니 클릭 핸들러
+  const handleConfirm = () => {
+    setIsConfirmOpen(false);
+    if (currentUser) {
+      changeProductState(currentUser?.uid, detailData.id, 'add_basket');
+      navi('/mypage/basket');
+    } else navi('/login');
+  };
+
+  const handleCancel = () => {
+    setIsConfirmOpen(false);
+  };
+
   return (
     <div className="w-full lg:flex justify-between h-screen">
       <div className="lg:w-3/5">
@@ -81,9 +91,18 @@ const ProductDetailPage = (props: Props) => {
           <div className="p-5 border-black border-2 hover:cursor-pointer" onClick={clickLikeHandler}>
             <AiFillHeart size={30} color={isLiked ? 'red' : 'black'} />
           </div>
-          <div className="p-5 border-black border-2 hover:cursor-pointer" onClick={addShoppingBasket}>
+          <div
+            className="p-5 border-black border-2 hover:cursor-pointer"
+            onClick={() => setIsConfirmOpen((prev) => !prev)}
+          >
             <AiFillShopping size={30} />
           </div>
+        </div>
+
+        <div>
+          {isConfirmOpen && (
+            <CofirmationBox onConfirm={handleConfirm} onCancel={handleCancel} message="장바구니에 추가합니까?" />
+          )}
         </div>
       </div>
     </div>

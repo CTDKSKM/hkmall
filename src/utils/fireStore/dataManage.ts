@@ -37,13 +37,15 @@ const getAllProductData = async (): Promise<Product[]> => {
     throw error;
   }
 };
-const getUserLikes = async (uid: string): Promise<Product[]> => {
+const getUserLikes = async (uid: string, mode: 'like' | 'basket'): Promise<Product[]> => {
   try {
     const userInteractDocRef = doc(db, 'user_interact', uid);
     const userInteractDocSnapshot = await getDoc(userInteractDocRef);
 
     if (userInteractDocSnapshot.exists()) {
-      const likeList = userInteractDocSnapshot.data()?.likedProducts || [];
+      const value = mode === 'like' ? 'likedProducts' : 'addedProducts';
+
+      const likeList = userInteractDocSnapshot.data()?.[value] || [];
       console.log('User Likes:', likeList);
 
       const productList = await Promise.all(
