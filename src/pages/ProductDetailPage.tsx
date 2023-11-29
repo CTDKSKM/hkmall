@@ -58,7 +58,11 @@ const ProductDetailPage = (props: Props) => {
             대분류
           </a>
           {'>'}
-          <a href="/" className="text-gray-500  underline" onClick={() => setCategory(detailData.category as Category)}>
+          <a
+            href="/"
+            className="text-gray-500  underline"
+            // onClick={() => setCategory(detailData.category as Category)}
+          >
             소분류
           </a>
         </div>

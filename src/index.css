@@ -9,7 +9,7 @@ body {
     'Droid Sans', 'Helvetica Neue', 'Noto Sans KR', 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-top: 200px;
+  padding-top: 220px;
 }
 
 code {
@@ -21,9 +21,17 @@ code {
 }
 
 .productInput {
-  @apply w-4/5 h-full focus:outline-none;
+  @apply w-4/5 h-full focus:outline-none px-2;
 }
 
 .productInputPlaceHolder {
   @apply absolute top-1/2 left-2 -translate-y-1/2 pointer-events-none;
+}
+
+.productCardContainer {
+  @apply mx-3 mt-6 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 sm:shrink-0 sm:grow sm:basis-0 hover:cursor-pointer hover:border-black border-2;
+}
+
+.socialLoginButton {
+  @apply flex justify-center items-center mx-1 h-9 w-9 rounded-full bg-blue-50 uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-blue-300 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-blue-300 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-blue-300 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)];
 }

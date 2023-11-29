@@ -121,11 +121,6 @@ const ProductManage = (props: Props) => {
             </option>
           ))}
         </select>
-        {selectedCategory && (
-          <div>
-            <h2>선택된 카테고리: {selectedCategory.name}</h2>
-          </div>
-        )}
       </div>
 
       {/* 이미지 */}

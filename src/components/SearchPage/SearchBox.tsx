@@ -25,7 +25,14 @@ const SearchBox = (props: Props) => {
       className="productInputContainer text-black bg-white flex"
     >
       <label htmlFor="search"></label>
-      <input type="text" name="search" className="productInput" value={searchValue} onChange={handleSearchInput} />
+      <input
+        type="text"
+        name="search"
+        className="productInput"
+        value={searchValue}
+        onChange={handleSearchInput}
+        placeholder="검색어를 입력하세요"
+      />
       <button onClick={handleSearchButton}>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32" fill="none">
           <circle cx="14.6663" cy="14.6668" r="9.33333" stroke="#4F4F4F" strokeWidth="2" />

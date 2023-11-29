@@ -6,7 +6,7 @@ const QUERY_KEY = 'getAllProduct';
 const useProductQuery = () => {
   const query = useQueryClient();
 
-  const { isPending, isError, data, error } = useQuery({
+  const { isLoading, isFetching, isError, data, error } = useQuery({
     queryKey: [QUERY_KEY],
     queryFn: getAllProductData
     // staleTime: 60 * 1000,
@@ -24,7 +24,7 @@ const useProductQuery = () => {
     }
   });
 
-  return { isPending, isError, data, error, addProductMutation, deleteProductMutation };
+  return { isLoading, isFetching, isError, data, error, addProductMutation, deleteProductMutation };
 };
 
 export default useProductQuery;
