@@ -39,6 +39,7 @@ const getAllProductData = async (): Promise<Product[]> => {
 };
 const getUserLikes = async (uid: string, mode: 'like' | 'basket'): Promise<Product[]> => {
   try {
+    console.log('getUserCollect==>>', uid, mode);
     const userInteractDocRef = doc(db, 'user_interact', uid);
     const userInteractDocSnapshot = await getDoc(userInteractDocRef);
 

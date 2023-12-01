@@ -40,13 +40,14 @@ const ProductDetailPage = (props: Props) => {
   };
 
   useEffect(() => {
+    console.log('zzzzz');
     if (detailData)
-      hasPushedLike(currentUser?.uid!, detailData.id).then((data) => {
-        try {
-          setIsLiked(data!);
-        } catch {}
+      hasPushedLike(currentUser?.uid!, detailData.id).then((isliked) => {
+        console.log('==>>', isliked);
+
+        setIsLiked(isliked);
       });
-  }, [detailData]);
+  }, [data, detailData]);
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
@@ -54,6 +55,7 @@ const ProductDetailPage = (props: Props) => {
   const handleConfirm = () => {
     setIsConfirmOpen(false);
     if (currentUser && detailData) {
+      console.log('uid==>>', currentUser.uid);
       updateProductMutation.mutate({ uid: currentUser?.uid, pid: detailData.id, mode: 'add_basket' });
       navi('/mypage/basket');
     } else navi('/login');

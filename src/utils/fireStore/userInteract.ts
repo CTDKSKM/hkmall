@@ -12,15 +12,14 @@ const hasPushedLike = async (uid: string, pid: string) => {
     // Get the current data
 
     if (userData && userData.likedProducts) {
+      console.log('userdata', userData.likedProducts);
       const isLiked = userData.likedProducts.includes(pid);
-      if (isLiked) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+
+      return isLiked;
+    } else return false;
   } catch (error) {}
 };
+
 const changeProductLike = async (pid: string, mode: string) => {
   const productDocRef = doc(db, 'products', pid);
 
@@ -34,12 +33,10 @@ const changeProductLike = async (pid: string, mode: string) => {
       // If mode is 'up', increment the 'like' field
       const updatedLikes = (productData.like || 0) + 1;
       await updateDoc(productDocRef, { like: updatedLikes });
-      console.log('Like incremented successfully');
     } else if (productData && mode === 'down' && productData.like > 0) {
       // 상품 좋아요 -1
       const updatedLikes = productData.like - 1;
       await updateDoc(productDocRef, { like: updatedLikes });
-      console.log('Like decremented successfully');
     } else {
       console.log('Invalid mode or like count already at 0');
     }
