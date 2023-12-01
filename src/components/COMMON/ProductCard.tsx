@@ -12,7 +12,7 @@ const ProductCard = ({ item }: Props) => {
   const { deleteProductMutation } = useProductQuery();
 
   return (
-    <Link to={`/products/${item.id}`} state={item} className="productCardContainer">
+    <Link to={`/products/${item.id}`} className="productCardContainer">
       <div className="overflow-hidden rounded-t-lg">
         <img className="hover:scale-125 transition-transform duration-300" src={item.imgs[0]} alt="이미지없음" />
       </div>
