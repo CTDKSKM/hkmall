@@ -48,7 +48,7 @@ const changeProductLike = async (pid: string, mode: string) => {
   }
 };
 
-const changeProductState = async (uid: string, pid: string, mode: string) => {
+const changeProductState = async ({ uid, pid, mode }: { uid: string; pid: string; mode: string }) => {
   const fieldName = mode === 'add_like' ? 'likedProducts' : 'addedProducts';
 
   try {
