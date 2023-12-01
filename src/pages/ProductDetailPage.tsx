@@ -9,6 +9,7 @@ import { changeProductState, hasPushedLike } from '../utils/fireStore/userIntera
 import { currentUserState } from '../atom/currentUserState';
 import { useNavigate } from 'react-router-dom';
 import CofirmationBox from '../components/COMMON/CofirmationBox';
+import useProductQuery from '../hooks/useProductQuery';
 
 type Props = {};
 
@@ -18,6 +19,14 @@ const ProductDetailPage = (props: Props) => {
   const setCategory = useSetRecoilState(currentCategory);
   const currentUser = useRecoilValue(currentUserState);
   const navi = useNavigate();
+
+  const [product, setProduct] = useState<Product | undefined>();
+
+  const { isLoading, isError, data, error } = useProductQuery();
+  const arr = data?.filter((product) => product.id === detailData.id);
+  if (arr && arr == undefined) {
+    setProduct(arr);
+  }
 
   // 좋아요 클릭 핸들러
   const clickLikeHandler = () => {
@@ -86,7 +95,7 @@ const ProductDetailPage = (props: Props) => {
 
           <AiFillHeart size={20} color="red" />
 
-          <p className="text-red-600">{detailData.like}</p>
+          <p className="text-red-600">{product?.like}</p>
         </div>
 
         <div className="mt-5 flex">
