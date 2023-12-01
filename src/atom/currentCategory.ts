@@ -1,7 +1,12 @@
 import { atom } from 'recoil';
-import { Category } from '../static/const/type';
 
-export const currentCategory = atom<Category>({
+export const category = {
+  ALL: '전체',
+  T_SHIRTS: '티셔츠',
+  TRAINING_CLOTHS: '트레이닝복',
+  HAT: '모자'
+};
+export const currentCategory = atom<string>({
   key: 'currentCategory',
-  default: Category.ALL
+  default: category.ALL
 });

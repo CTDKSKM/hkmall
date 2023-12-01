@@ -17,9 +17,9 @@ export interface Product {
   inventory?: number;
   like: number;
 }
-export enum Category {
-  ALL = '전체',
-  T_SHIRTS = '티셔츠',
-  TRAINING_CLOTHS = '트레이닝복',
-  HAT = '모자'
+export interface Category {
+  ALL: string;
+  T_SHIRTS: string;
+  TRAINING_CLOTHS: string;
+  HAT: string;
 }

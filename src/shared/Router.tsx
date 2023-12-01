@@ -4,7 +4,7 @@ import Home from '../pages/Home';
 import Layout from './Layout';
 import MyPage from '../pages/MyPage';
 import ProductDetailPage from '../pages/ProductDetailPage';
-import Login from '../components/Login';
+import Login from '../pages/Login';
 import Register from '../components/Register';
 import AdminPage from '../pages/AdminPage';
 import SearchPage from '../pages/SearchPage';

@@ -3,7 +3,7 @@ import React from 'react';
 type Props = {};
 
 const LoadingIndicator = (props: Props) => {
-    // 로딩 UI
+  // 로딩 UI 상태바
   return (
     <div className="flex items-center justify-center w-100 h-100 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
       <div role="status">
