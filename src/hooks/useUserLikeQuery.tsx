@@ -9,6 +9,8 @@ const useUserLikesQuery = (uid: string, mode: 'like' | 'basket') => {
     queryKey: [QUERY_KEY, uid, mode],
     queryFn: () => getUserLikes(uid, mode)
   });
+  
+
 };
 
 export default useUserLikesQuery;

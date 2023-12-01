@@ -9,14 +9,15 @@ import BasketCard from '../components/COMMON/BasketCard';
 type Props = {};
 
 const MyProductBasket = (props: Props) => {
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  // const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const user = useRecoilValue(currentUserState);
 
   const { data, isLoading, isError } = useUserLikesQuery(user?.uid || '', 'basket');
 
   useEffect(() => {
     if (data) {
-      setFilteredProducts(data);
+      // setFilteredProducts(data);
+      console.log(data);
     }
   }, [data]);
 
@@ -34,7 +35,7 @@ const MyProductBasket = (props: Props) => {
       {/* Product list in the cart */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Sample product card */}
-        {filteredProducts?.map((item: Product, key: number) => (
+        {data?.map((item: Product, key: number) => (
           <BasketCard key={item.id} item={item} />
         ))}
 

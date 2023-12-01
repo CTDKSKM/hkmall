@@ -1,26 +1,30 @@
 import { arrayRemove, arrayUnion, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 
-const hasPushedLike = async (uid: string, pid: string) => {
+const hasPushedItem = async (uid: string, pid: string, mode: 'like' | 'basket') => {
+  const fieldName = mode === 'like' ? 'likedProducts' : 'addedProducts';
+
   try {
     const userDocRef = doc(db, 'user_interact', uid);
-    // const userDocSnapshot = await getDoc(userDocRef);
-
     const userDoc = await getDoc(userDocRef);
     const userData = userDoc.data();
 
     // Get the current data
 
-    if (userData && userData.likedProducts) {
-      const isLiked = userData.likedProducts.includes(pid);
+    if (userData && userData[fieldName]) {
+      const isLiked = userData[fieldName].includes(pid);
       if (isLiked) {
         return true;
       } else {
         return false;
       }
     }
-  } catch (error) {}
+  } catch (error) {
+    // Handle errors here
+    console.error(error);
+  }
 };
+
 const changeProductLike = async (pid: string, mode: string) => {
   const productDocRef = doc(db, 'products', pid);
 
@@ -105,4 +109,4 @@ const changeProductState = async ({ uid, pid, mode }: { uid: string; pid: string
     console.error('Error toggling product state:', error);
   }
 };
-export { changeProductState, hasPushedLike, changeProductLike };
+export { changeProductState, hasPushedItem, changeProductLike };
