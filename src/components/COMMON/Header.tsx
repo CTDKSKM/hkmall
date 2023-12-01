@@ -4,6 +4,7 @@ import { category, currentCategory } from '../../atom/currentCategory';
 import SearchBox from '../SearchPage/SearchBox';
 import { useNavigate } from 'react-router-dom';
 import LoginInfoBox from './LoginInfoBox';
+import { Link } from 'react-router-dom';
 
 type Props = {};
 
@@ -30,9 +31,9 @@ const Header = (props: Props) => {
         <nav className="bg-gray-800 text-white py-4 flex justify-between items-center px-5">
           <ul className="flex justify-between space-x-4">
             <li>
-              <a href="/" className="hover:text-gray-300">
+              <Link to="/" className="hover:text-gray-300">
                 홈
-              </a>
+              </Link>
             </li>
           </ul>
 
