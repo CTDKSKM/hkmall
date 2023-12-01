@@ -5,43 +5,56 @@ import { AiFillHeart, AiFillShopping } from 'react-icons/ai';
 import { Category, Product } from '../static/const/type';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { currentCategory } from '../atom/currentCategory';
-import { changeProductState, hasPushedLike } from '../utils/fireStore/userInteract';
+import { hasPushedLike } from '../utils/fireStore/userInteract';
 import { currentUserState } from '../atom/currentUserState';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import CofirmationBox from '../components/COMMON/CofirmationBox';
+import useProductQuery, { ALL_PRODUCT_QUERY_KEY } from '../hooks/useProductQuery';
+import { useQueryClient } from '@tanstack/react-query';
+import LoadingIndicator from '../components/COMMON/LoadingIndicator';
 
 type Props = {};
 
 const ProductDetailPage = (props: Props) => {
+  const query = useQueryClient();
+  const data = query.getQueryData([ALL_PRODUCT_QUERY_KEY]) as Product[];
   const [isLiked, setIsLiked] = useState(false);
-  const { state: detailData }: { state: Product } = useLocation();
+  const { pid } = useParams();
+
+  const [detailData, setDetailData] = useState<Product>();
   const setCategory = useSetRecoilState(currentCategory);
   const currentUser = useRecoilValue(currentUserState);
   const navi = useNavigate();
+  const { updateProductMutation } = useProductQuery();
+
+  useEffect(() => {
+    if (data) setDetailData(data.filter((product) => product.id === pid)[0]);
+  }, [data]);
 
   // 좋아요 클릭 핸들러
   const clickLikeHandler = () => {
-    if (currentUser) {
-      changeProductState(currentUser?.uid, detailData.id, 'add_like');
+    if (currentUser && detailData) {
+      updateProductMutation.mutate({ uid: currentUser?.uid, pid: detailData.id, mode: 'add_like' });
       setIsLiked((prev) => !prev);
     } else navi('/login');
   };
 
   useEffect(() => {
-    hasPushedLike(currentUser?.uid!, detailData.id).then((data) => {
-      try {
-        setIsLiked(data!);
-      } catch {}
-    });
-  }, []);
+    if (detailData)
+      hasPushedLike(currentUser?.uid!, detailData.id).then((data) => {
+        try {
+          setIsLiked(data!);
+        } catch {}
+      });
+  }, [detailData]);
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   // 장바구니 클릭 핸들러
   const handleConfirm = () => {
     setIsConfirmOpen(false);
-    if (currentUser) {
-      changeProductState(currentUser?.uid, detailData.id, 'add_basket');
+    if (currentUser && detailData) {
+      updateProductMutation.mutate({ uid: currentUser?.uid, pid: detailData.id, mode: 'add_basket' });
       navi('/mypage/basket');
     } else navi('/login');
   };
@@ -49,6 +62,13 @@ const ProductDetailPage = (props: Props) => {
   const handleCancel = () => {
     setIsConfirmOpen(false);
   };
+
+  if (!detailData)
+    return (
+      <div>
+        <LoadingIndicator />
+      </div>
+    );
 
   return (
     <div className="w-full lg:flex justify-between h-screen">
