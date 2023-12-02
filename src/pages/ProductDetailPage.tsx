@@ -3,7 +3,7 @@ import { useLocation } from 'react-router';
 import ProductImageSlider from '../components/ProductDetailPage/ProductImageSlider';
 import { AiFillHeart, AiFillShopping } from 'react-icons/ai';
 import { Category, Product } from '../static/const/type';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { currentCategory } from '../atom/currentCategory';
 import { hasPushedLike } from '../utils/fireStore/userInteract';
 import { currentUserState } from '../atom/currentUserState';
@@ -12,6 +12,7 @@ import CofirmationBox from '../components/COMMON/CofirmationBox';
 import useProductQuery, { ALL_PRODUCT_QUERY_KEY } from '../hooks/useProductQuery';
 import { useQueryClient } from '@tanstack/react-query';
 import LoadingIndicator from '../components/COMMON/LoadingIndicator';
+import { currentPushedLike } from '../atom/currentPushedLike';
 
 type Props = {};
 
@@ -22,31 +23,41 @@ const ProductDetailPage = (props: Props) => {
   const { pid } = useParams();
 
   const [detailData, setDetailData] = useState<Product>();
-  const setCategory = useSetRecoilState(currentCategory);
+
   const currentUser = useRecoilValue(currentUserState);
+  const setLike = useSetRecoilState(currentPushedLike);
   const navi = useNavigate();
   const { updateProductMutation } = useProductQuery();
 
   useEffect(() => {
-    if (data) setDetailData(data.filter((product) => product.id === pid)[0]);
+    if (data) {
+      const product = data.filter((product) => product.id === pid)[0];
+
+      setDetailData(product);
+    }
   }, [data]);
 
   // 좋아요 클릭 핸들러
   const clickLikeHandler = () => {
     if (currentUser && detailData) {
-      updateProductMutation.mutate({ uid: currentUser?.uid, pid: detailData.id, mode: 'add_like' });
       setIsLiked((prev) => !prev);
+      setLike(isLiked);
+      updateProductMutation.mutate({ uid: currentUser?.uid, pid: detailData.id, mode: 'add_like' });
+      // 하트 색깔 on/off
     } else navi('/login');
   };
 
   useEffect(() => {
-    if (detailData)
-      hasPushedLike(currentUser?.uid!, detailData.id).then((data) => {
+    // Initialize isLiked on the initial render
+
+    if (data) {
+      hasPushedLike(currentUser?.uid!, pid!).then((pushed) => {
         try {
-          setIsLiked(data!);
+          setIsLiked(pushed!);
         } catch {}
       });
-  }, [detailData]);
+    }
+  }, []);
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
