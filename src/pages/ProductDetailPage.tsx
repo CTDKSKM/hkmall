@@ -40,19 +40,19 @@ const ProductDetailPage = (props: Props) => {
     } else navi('/login');
   };
 
+  const handleBasketHandler = () => {
+    if (currentUser) {
+      setIsConfirmOpen(true);
+    } else navi('/login');
+  };
+
   useEffect(() => {
-    if (detailData) {
-      hasPushedItem(currentUser?.uid!, detailData.id, 'like').then((added) => {
-        try {
-          setIsLiked(added!);
-        } catch {}
+    if (detailData)
+      hasPushedItem(currentUser?.uid!, detailData.id, 'like').then((isliked) => {
+        console.log('==>>', isliked);
+
+        setIsLiked(isliked);
       });
-      hasPushedItem(currentUser?.uid!, detailData.id, 'basket').then((added) => {
-        try {
-          setHasBasket(added!);
-        } catch {}
-      });
-    }
   }, [detailData]);
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -60,7 +60,7 @@ const ProductDetailPage = (props: Props) => {
   // 장바구니 클릭 핸들러
   const handleConfirm = () => {
     setIsConfirmOpen(false);
-    if (currentUser && detailData && !hasBasket) {
+    if (currentUser && detailData) {
       updateProductMutation.mutate({ uid: currentUser?.uid, pid: detailData.id, mode: 'add_basket' });
       // navi('/mypage/basket');
     } else navi('/login');
@@ -129,19 +129,19 @@ const ProductDetailPage = (props: Props) => {
           </div>
 
           {/* 바구니 이미지 */}
-          <div
-            className="p-5 border-black border-2 hover:cursor-pointer"
-            onClick={() => setIsConfirmOpen((prev) => !prev)}
-          >
+          {/* () => setIsConfirmOpen((prev) => !prev) */}
+          <div className="p-5 border-black border-2 hover:cursor-pointer" onClick={handleBasketHandler}>
             <AiFillShopping size={30} color={!hasBasket ? 'black' : 'blue'} />
           </div>
         </div>
-
+        {/* 알림창 */}
+        {/* 장바구니에 이미 추가된 상태 */}
         <div>
           {isConfirmOpen && !hasBasket && (
             <CofirmationBox onConfirm={handleConfirm} onCancel={handleCancel} message="장바구니에 추가합니까?" />
           )}
         </div>
+        {/* 장바구니에 아직 추가 안함 */}
         <div>
           {isConfirmOpen && hasBasket && (
             <CofirmationBox

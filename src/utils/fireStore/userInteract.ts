@@ -11,21 +11,21 @@ const hasPushedItem = async (uid: string, pid: string, mode: 'like' | 'basket') 
 
     // Get the current data
 
-    if (userData && userData[fieldName]) {
-      const isLiked = userData[fieldName].includes(pid);
-      if (isLiked) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  } catch (error) {
-    // Handle errors here
-    console.error(error);
-  }
+    if (userData && userData.likedProducts) {
+      console.log('userdata', userData.likedProducts);
+      const isLiked = userData.likedProducts.includes(pid);
+
+      return isLiked;
+    } else return false;
+  } catch (error) {}
 };
 
-const changeProductLike = async (pid: string, mode: string) => {
+/**
+ * 해당 제품의 좋아요 개수 업,다운
+ * @param pid: 제품번호
+ * @param state: up & down
+ */
+const changeProductLike = async (pid: string, state: 'up' | 'down') => {
   const productDocRef = doc(db, 'products', pid);
 
   try {
@@ -34,16 +34,14 @@ const changeProductLike = async (pid: string, mode: string) => {
     const productData = productDoc.data();
 
     // 상품 좋아요 +1
-    if (productData && mode === 'up') {
+    if (productData && state === 'up') {
       // If mode is 'up', increment the 'like' field
       const updatedLikes = (productData.like || 0) + 1;
       await updateDoc(productDocRef, { like: updatedLikes });
-      console.log('Like incremented successfully');
-    } else if (productData && mode === 'down' && productData.like > 0) {
+    } else if (productData && state === 'down' && productData.like > 0) {
       // 상품 좋아요 -1
       const updatedLikes = productData.like - 1;
       await updateDoc(productDocRef, { like: updatedLikes });
-      console.log('Like decremented successfully');
     } else {
       console.log('Invalid mode or like count already at 0');
     }
@@ -52,7 +50,15 @@ const changeProductLike = async (pid: string, mode: string) => {
   }
 };
 
-const changeProductState = async ({ uid, pid, mode }: { uid: string; pid: string; mode: string }) => {
+const changeProductState = async ({
+  uid,
+  pid,
+  mode
+}: {
+  uid: string;
+  pid: string;
+  mode: 'add_like' | 'add_basket';
+}) => {
   const fieldName = mode === 'add_like' ? 'likedProducts' : 'addedProducts';
 
   try {

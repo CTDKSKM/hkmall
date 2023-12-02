@@ -11,15 +11,15 @@ type Props = {};
 const MyProductBasket = (props: Props) => {
   // const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const user = useRecoilValue(currentUserState);
-
-  const { data, isLoading, isError } = useUserLikesQuery(user?.uid || '', 'basket');
+  console.log('user==>>', user?.uid);
+  const { data, isLoading, isError } = useUserLikesQuery('CiLCdx9kTON1rOv75GjcvDDR0jD3', 'basket');
 
   useEffect(() => {
     if (data) {
       // setFilteredProducts(data);
       console.log(data);
     }
-  }, [data]);
+  }, [data, user]);
 
   if (isLoading) {
     return <LoadingIndicator />;
