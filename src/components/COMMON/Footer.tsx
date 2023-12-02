@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
             <SiTistory className="w-[40px] h-[40px] footerIcon mt-2  mx-1" />
           </a>
         </div>
-        <p>© 2021. HK Mall. All rights reserved.</p>
+        <p>© 2023. HK Mall. All rights reserved.</p>
       </div>
     </footer>
   );

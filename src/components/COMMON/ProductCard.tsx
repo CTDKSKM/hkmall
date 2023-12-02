@@ -26,7 +26,7 @@ const ProductCard = ({ item }: Props) => {
         <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200">{item.like}</p>
       </div>
 
-      <button
+      {/* <button
         className="border border-red-500 z-50 hover:bg-blue-300"
         onClick={(e) => {
           e.preventDefault();
@@ -34,7 +34,7 @@ const ProductCard = ({ item }: Props) => {
         }}
       >
         삭제테스트
-      </button>
+      </button> */}
     </Link>
   );
 };

@@ -1,14 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
-import { getUserLikes } from '../utils/fireStore/dataManage';
-// Import your getUserLikes function
+import { getUserInteractedItems } from '../utils/fireStore/dataManage';
 
 const QUERY_KEY = 'userLikes';
 
-const useUserLikesQuery = (uid: string, mode: 'like' | 'basket') => {
+const useUserInteractedItemsQuery = (uid: string, mode: 'likedProducts' | 'addedProducts') => {
   return useQuery({
     queryKey: [QUERY_KEY, uid, mode],
-    queryFn: () => getUserLikes(uid, mode)
+    queryFn: () => getUserInteractedItems(uid, mode)
   });
 };
 
-export default useUserLikesQuery;
+export default useUserInteractedItemsQuery;

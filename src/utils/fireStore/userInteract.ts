@@ -1,7 +1,14 @@
 import { arrayRemove, arrayUnion, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 
-const hasPushedLike = async (uid: string, pid: string) => {
+/**
+ * 해당 상품을 눌림 유무를 리턴
+ * @param uid 유저uid
+ * @param pid 상품번호
+ * @param mode 좋아요 or 장바구니
+ * @returns
+ */
+const hasPushedLike = async (uid: string, pid: string, mode: 'likedProducts' | 'addedProducts') => {
   try {
     const userDocRef = doc(db, 'user_interact', uid);
     // const userDocSnapshot = await getDoc(userDocRef);
@@ -11,9 +18,10 @@ const hasPushedLike = async (uid: string, pid: string) => {
 
     // Get the current data
 
-    if (userData && userData.likedProducts) {
-      const isLiked = userData.likedProducts.includes(pid);
-      if (isLiked) {
+    if (userData && userData?.[mode]) {
+      const isPushed = userData?.[mode].includes(pid);
+
+      if (isPushed) {
         return true;
       } else {
         return false;
@@ -48,9 +56,15 @@ const changeProductLike = async (pid: string, mode: string) => {
   }
 };
 
-const changeProductState = async ({ uid, pid, mode }: { uid: string; pid: string; mode: string }) => {
-  const fieldName = mode === 'add_like' ? 'likedProducts' : 'addedProducts';
-
+const changeProductState = async ({
+  uid,
+  pid,
+  mode
+}: {
+  uid: string;
+  pid: string;
+  mode: 'likedProducts' | 'addedProducts';
+}) => {
   try {
     // Get the reference to the user document
     let userDocRef = doc(db, 'user_interact', uid);
@@ -60,40 +74,43 @@ const changeProductState = async ({ uid, pid, mode }: { uid: string; pid: string
 
     if (!userDocSnapshot.exists()) {
       // If the user document does not exist, create it
-      await setDoc(userDocRef, { [fieldName]: [] });
+      await setDoc(userDocRef, { [mode]: [] });
     }
 
     // Get the current data
     const userDoc = await getDoc(userDocRef);
     const userData = userDoc.data();
 
-    if (userData && userData[fieldName]) {
-      const isState = userData[fieldName].includes(pid);
+    if (userData && userData[mode]) {
+      const isState: boolean = userData[mode].includes(pid);
 
       // Update the field based on the mode
       if (isState) {
         // If pid exists, remove it
         await updateDoc(userDocRef, {
-          [fieldName]: arrayRemove(pid)
+          [mode]: arrayRemove(pid)
         });
 
-        // Call changeProductLike to decrement the 'like' field
-        await changeProductLike(pid, 'down');
+        if (mode === 'likedProducts') {
+          await changeProductLike(pid, 'down');
+        }
       } else {
         // If pid does not exist, add it
         await updateDoc(userDocRef, {
-          [fieldName]: arrayUnion(pid)
+          [mode]: arrayUnion(pid)
         });
 
         // Call changeProductLike to increment the 'like' field
-        await changeProductLike(pid, 'up');
+        if (mode === 'likedProducts') {
+          await changeProductLike(pid, 'up');
+        }
       }
 
       console.log('Toggle successful');
     } else {
       // If the field does not exist, create it with an array containing pid
       await updateDoc(userDocRef, {
-        [fieldName]: [pid]
+        [mode]: [pid]
       });
 
       console.log('Field created with initial data');

@@ -37,15 +37,13 @@ const getAllProductData = async (): Promise<Product[]> => {
     throw error;
   }
 };
-const getUserLikes = async (uid: string, mode: 'like' | 'basket'): Promise<Product[]> => {
+const getUserInteractedItems = async (uid: string, mode: 'likedProducts' | 'addedProducts'): Promise<Product[]> => {
   try {
     const userInteractDocRef = doc(db, 'user_interact', uid);
     const userInteractDocSnapshot = await getDoc(userInteractDocRef);
 
     if (userInteractDocSnapshot.exists()) {
-      const value = mode === 'like' ? 'likedProducts' : 'addedProducts';
-
-      const likeList = userInteractDocSnapshot.data()?.[value] || [];
+      const likeList = userInteractDocSnapshot.data()?.[mode] || [];
       console.log('User Likes:', likeList);
 
       const productList = await Promise.all(
@@ -156,4 +154,4 @@ const uploadImage = async (image: File, key: number, productId: string) => {
   }
 };
 
-export { getAllProductData, getUserLikes, addProduct, deleteProduct, uploadImage };
+export { getAllProductData, getUserInteractedItems, addProduct, deleteProduct, uploadImage };
