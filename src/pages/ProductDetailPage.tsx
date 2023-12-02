@@ -20,6 +20,7 @@ const ProductDetailPage = (props: Props) => {
   const query = useQueryClient();
   const data = query.getQueryData([ALL_PRODUCT_QUERY_KEY]) as Product[];
   const [isLiked, setIsLiked] = useState(false);
+  const [isInBasket, setInBasket] = useState(false);
   const { pid } = useParams();
 
   const [detailData, setDetailData] = useState<Product>();
@@ -27,7 +28,7 @@ const ProductDetailPage = (props: Props) => {
   const currentUser = useRecoilValue(currentUserState);
   const setLike = useSetRecoilState(currentPushedLike);
   const navi = useNavigate();
-  const { updateProductMutation } = useProductQuery();
+  const { updateProductMutation, updateBasketMutation } = useProductQuery();
 
   useEffect(() => {
     if (data) {
@@ -42,7 +43,7 @@ const ProductDetailPage = (props: Props) => {
     if (currentUser && detailData) {
       setIsLiked((prev) => !prev);
       setLike(isLiked);
-      updateProductMutation.mutate({ uid: currentUser?.uid, pid: detailData.id, mode: 'add_like' });
+      updateProductMutation.mutate({ uid: currentUser?.uid, pid: detailData.id, mode: 'likedProducts' });
       // 하트 색깔 on/off
     } else navi('/login');
   };
@@ -50,10 +51,18 @@ const ProductDetailPage = (props: Props) => {
   useEffect(() => {
     // Initialize isLiked on the initial render
 
+    // 첫 랜더링 시 장바구니, 좋아요 여부 확인
     if (data) {
-      hasPushedLike(currentUser?.uid!, pid!).then((pushed) => {
+      hasPushedLike(currentUser?.uid!, pid!, 'likedProducts').then((pushed) => {
         try {
           setIsLiked(pushed!);
+        } catch {}
+      });
+    }
+    if (data) {
+      hasPushedLike(currentUser?.uid!, pid!, 'addedProducts').then((pushed) => {
+        try {
+          setInBasket(pushed!);
         } catch {}
       });
     }
@@ -65,8 +74,15 @@ const ProductDetailPage = (props: Props) => {
   const handleConfirm = () => {
     setIsConfirmOpen(false);
     if (currentUser && detailData) {
-      updateProductMutation.mutate({ uid: currentUser?.uid, pid: detailData.id, mode: 'add_basket' });
-      navi('/mypage/basket');
+      // 이미 장바구니에 있거나 없거나
+      if (isInBasket) {
+        navi('/mypage/basket');
+        setInBasket(true);
+      } else {
+        updateBasketMutation.mutate({ uid: currentUser?.uid, pid: detailData.id, mode: 'addedProducts' });
+        navi('/mypage/basket');
+        setInBasket(true);
+      }
     } else navi('/login');
   };
 
@@ -130,13 +146,28 @@ const ProductDetailPage = (props: Props) => {
             className="p-5 border-black border-2 hover:cursor-pointer"
             onClick={() => setIsConfirmOpen((prev) => !prev)}
           >
-            <AiFillShopping size={30} />
+            <AiFillShopping size={30} color={isInBasket ? '#429ceb' : 'black'} />
           </div>
         </div>
 
         <div>
-          {isConfirmOpen && (
-            <CofirmationBox onConfirm={handleConfirm} onCancel={handleCancel} message="장바구니에 추가합니까?" />
+          {isConfirmOpen && !isInBasket && (
+            <CofirmationBox
+              onConfirm={handleConfirm}
+              onCancel={handleCancel}
+              message="장바구니에 추가합니까?"
+              nextMessage={null}
+            />
+          )}
+        </div>
+        <div>
+          {isConfirmOpen && isInBasket && (
+            <CofirmationBox
+              onConfirm={handleConfirm}
+              onCancel={handleCancel}
+              message={`이미 장바구니에 있는 상품입니다.`}
+              nextMessage="장바구니로 이동합니까?"
+            />
           )}
         </div>
       </div>

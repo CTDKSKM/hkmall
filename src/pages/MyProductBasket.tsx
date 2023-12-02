@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Product } from '../static/const/type';
 import { currentUserState } from '../atom/currentUserState';
 import { useRecoilValue } from 'recoil';
-import useUserLikesQuery from '../hooks/useUserLikeQuery';
+import useUserInteractedItemsQuery from '../hooks/useUserLikeQuery';
 import LoadingIndicator from '../components/COMMON/LoadingIndicator';
 import BasketCard from '../components/COMMON/BasketCard';
 
@@ -12,7 +12,7 @@ const MyProductBasket = (props: Props) => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const user = useRecoilValue(currentUserState);
 
-  const { data, isLoading, isError } = useUserLikesQuery(user?.uid || '', 'basket');
+  const { data, isLoading, isError } = useUserInteractedItemsQuery(user?.uid || '', 'addedProducts');
 
   useEffect(() => {
     if (data) {
@@ -35,7 +35,7 @@ const MyProductBasket = (props: Props) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Sample product card */}
         {filteredProducts?.map((item: Product, key: number) => (
-          <BasketCard key={item.id} item={item} />
+          <BasketCard key={item.id} item={item} user={user!} />
         ))}
 
         {/* Repeat this structure for each product in the cart */}

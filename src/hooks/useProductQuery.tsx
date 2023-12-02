@@ -23,6 +23,18 @@ const useProductQuery = () => {
       queryClient.invalidateQueries({ queryKey: [ALL_PRODUCT_QUERY_KEY] });
     }
   });
+
+  const updateBasketMutation = useMutation({
+    mutationFn: changeProductState,
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [ALL_PRODUCT_QUERY_KEY] });
+    },
+   
+  });
+
+  
+
   const updateProductMutation = useMutation({
     mutationFn: changeProductState,
     onMutate: async (newData) => {
@@ -31,11 +43,9 @@ const useProductQuery = () => {
       // 이전 값
       const previousData = queryClient.getQueryData([ALL_PRODUCT_QUERY_KEY]);
 
-      // 새로운 값으로 낙관적 업데이트 진행
-      queryClient.setQueryData([ALL_PRODUCT_QUERY_KEY], (oldData: any) => {
-        // Calculate the new like count optimistically
+      // 새로운 값으로 *낙관적 업데이트* 진행
+      queryClient.setQueryData([ALL_PRODUCT_QUERY_KEY], (oldData: Product[]) => {
         // isPushed 가 true이면 -1 아니면 +1
-
         const updatedData = oldData.map((product: Product) => {
           if (product.id === newData.pid) {
             return { ...product, like: isPushed ? product.like - 1 : product.like + 1 };
@@ -59,11 +69,13 @@ const useProductQuery = () => {
       queryClient.invalidateQueries({ queryKey: [ALL_PRODUCT_QUERY_KEY] });
     }
   });
+
   const deleteProductMutation = useMutation({
     mutationFn: deleteProduct,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [ALL_PRODUCT_QUERY_KEY] });
-    }
+    },
+    onSettled: () => {}
   });
 
   return {
@@ -74,7 +86,8 @@ const useProductQuery = () => {
     error,
     addProductMutation,
     updateProductMutation,
-    deleteProductMutation
+    deleteProductMutation,
+    updateBasketMutation
   };
 };
 
