@@ -57,7 +57,7 @@ const MyProductBasket = (props: Props) => {
           <span className="font-bold">총 결제 금액</span>
           <span className="font-bold">￦105,000</span>
         </div>
-        <button className="mt-4 bg-blue-500 text-white px-6 py-3 rounded-md">주문 완료</button>
+        <button className="mt-4 bg-gray-500 text-white px-6 py-3 rounded-md">주문 완료</button>
       </div>
     </div>
   );

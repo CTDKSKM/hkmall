@@ -13,7 +13,6 @@ const Header = (props: Props) => {
   const setCategory = useSetRecoilState(currentCategory);
   const current = useRecoilValue(currentCategory);
   const currentPath = useLocation().pathname;
-  console.log(currentPath);
 
   return (
     <>

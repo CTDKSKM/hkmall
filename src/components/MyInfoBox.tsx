@@ -31,11 +31,11 @@ const MyInfoBox = (props: Props) => {
           <p>******</p>
         </div>
         <hr className="my-3" />
-        <div className="flex">
+        {/* <div className="flex">
           <p className="mr-3">닉네임</p>
           <p>####</p>
         </div>
-        <hr className="my-3" />
+        <hr className="my-3" /> */}
         <div className="flex">
           <p className="mr-3">계정 생성날짜</p>
           <p>{user?.created_at}</p>
@@ -45,7 +45,7 @@ const MyInfoBox = (props: Props) => {
       <h2 className="text-lg font-bold text-3xl">나의 쇼핑 활동</h2>
       <hr className="my-3" />
 
-      <div className="mt-5 flex">
+      <div className="my-5 flex">
         <div
           className="p-3 border-black border-2 font-bold hover:cursor-pointer hover:text-blue-500"
           onClick={() => navi('/mypage/like')}
