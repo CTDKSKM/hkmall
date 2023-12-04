@@ -21,11 +21,10 @@ const ProductCard = ({ item }: Props) => {
         />
       </div>
       <div>
-        <div className="p-3 w-[150px] mx-3">
+        <div className="sm:w-4/5 md:w-4/5 lg:w-4/5 ms-3">
           <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">{item.name}</h5>
           <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200">{item.price}원</p>
         </div>
-        {/* <hr className="my-2" /> */}
         <div className="p-6 flex">
           <AiFillHeart size={20} color="red" />
           <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200">{item.like}</p>
