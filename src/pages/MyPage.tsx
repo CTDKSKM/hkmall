@@ -37,7 +37,7 @@ const MyPage = (props: Props) => {
 
   return (
     <>
-      <div className="lg:w-1/3 h-screen mt-10">
+      <div className="lg:w-1/3 h-5/6 mt-10">
         <MyInfoBox />
 
         <form onSubmit={confirmDelete}>
