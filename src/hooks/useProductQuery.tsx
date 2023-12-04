@@ -6,6 +6,8 @@ import { Product } from '../static/const/type';
 import { useRecoilValue } from 'recoil';
 import { currentPushedLike } from '../atom/currentPushedLike';
 import { useNavigate } from 'react-router-dom';
+import { USER_ITEMS_QUERY_KEY } from './useUserLikeQuery';
+import { currentUserState } from '../atom/currentUserState';
 
 export const ALL_PRODUCT_QUERY_KEY = 'getAllProduct';
 
@@ -13,7 +15,7 @@ const useProductQuery = () => {
   const queryClient = useQueryClient();
   const isPushed = useRecoilValue(currentPushedLike);
   const navi = useNavigate();
-
+  const user = useRecoilValue(currentUserState);
   const { isLoading, isFetching, isError, data, error } = useQuery({
     queryKey: [ALL_PRODUCT_QUERY_KEY],
     queryFn: getAllProductData
@@ -29,8 +31,8 @@ const useProductQuery = () => {
   const updateBasketMutation = useMutation({
     mutationFn: changeProductState,
 
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [ALL_PRODUCT_QUERY_KEY] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [ALL_PRODUCT_QUERY_KEY] });
       navi('/mypage/basket');
     }
   });
@@ -58,15 +60,15 @@ const useProductQuery = () => {
       });
 
       // 값이 들어있는 context 객체를 반환
-      return { previousData };
+      return { previousData, newData };
     },
     // mutation이 실패하면 onMutate에서 반환된 context를 사용하여 롤백 진행
     onError(error, newData, context: any) {
       queryClient.setQueryData([ALL_PRODUCT_QUERY_KEY], context.previousData);
     },
     // 오류 또는 성공 후에는 항상 refetch
-    onSettled() {
-      queryClient.invalidateQueries({ queryKey: [ALL_PRODUCT_QUERY_KEY] });
+    onSettled: async () => {
+      await queryClient.invalidateQueries({ queryKey: [ALL_PRODUCT_QUERY_KEY] });
     }
   });
 

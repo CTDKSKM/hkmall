@@ -16,7 +16,7 @@ const MyProductBasket = (props: Props) => {
   const [total, setTotal] = useState('');
   // const SHIPPING_COST= '5000'
 
-  const { data, isLoading, isError } = useUserInteractedItemsQuery(user?.uid || '', 'addedProducts');
+  const { data, isLoading, isError, refetch } = useUserInteractedItemsQuery(user?.uid || '', 'addedProducts');
 
   const completeOrderHandler = () => {
     alert('미구현 기능입니다!');
@@ -28,7 +28,6 @@ const MyProductBasket = (props: Props) => {
       return acc + price;
     }, 0);
 
-    // console.log(comma(sum + ''));
     setCurTotal(comma(sum + ''));
     setTotal(comma(sum + 5000 + ''));
   };
@@ -43,7 +42,9 @@ const MyProductBasket = (props: Props) => {
       makeTotal();
     }
   }, [data, filteredProducts]);
-
+  useEffect(() => {
+    refetch();
+  }, []);
   if (isLoading) {
     return <LoadingIndicator />;
   }
