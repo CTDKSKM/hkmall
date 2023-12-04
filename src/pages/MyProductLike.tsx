@@ -16,13 +16,17 @@ const MyProductLike = (props: Props) => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const user = useRecoilValue(currentUserState);
 
-  const { data, isLoading, isError } = useUserInteractedItemsQuery(user?.uid || '', 'likedProducts');
+  const { data, isLoading, isError, refetch } = useUserInteractedItemsQuery(user?.uid || '', 'likedProducts');
 
   useEffect(() => {
     if (data) {
       setFilteredProducts(data);
     }
   }, [data]);
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   if (isLoading) {
     return <LoadingIndicator />;

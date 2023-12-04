@@ -37,7 +37,15 @@ const getAllProductData = async (): Promise<Product[]> => {
     throw error;
   }
 };
-const getUserInteractedItems = async (uid: string, mode: 'likedProducts' | 'addedProducts'): Promise<Product[]> => {
+const getUserInteractedItems = async ({
+  uid,
+  mode
+}: {
+  uid: string;
+  mode: 'likedProducts' | 'addedProducts';
+}): Promise<Product[]> => {
+  console.log('user id==>>', uid);
+  console.log('get!');
   try {
     const userInteractDocRef = doc(db, 'user_interact', uid);
     const userInteractDocSnapshot = await getDoc(userInteractDocRef);
