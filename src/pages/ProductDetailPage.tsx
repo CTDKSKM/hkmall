@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
 import ProductImageSlider from '../components/ProductDetailPage/ProductImageSlider';
 import { AiFillHeart, AiFillShopping } from 'react-icons/ai';
-import { Category, Product } from '../static/const/type';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { currentCategory } from '../atom/currentCategory';
+import { Product } from '../static/const/type';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { hasPushedLike } from '../utils/fireStore/userInteract';
 import { currentUserState } from '../atom/currentUserState';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -13,6 +11,7 @@ import useProductQuery, { ALL_PRODUCT_QUERY_KEY } from '../hooks/useProductQuery
 import { useQueryClient } from '@tanstack/react-query';
 import LoadingIndicator from '../components/COMMON/LoadingIndicator';
 import { currentPushedLike } from '../atom/currentPushedLike';
+import debounce from 'lodash/debounce';
 
 type Props = {};
 
@@ -139,7 +138,7 @@ const ProductDetailPage = (props: Props) => {
         <div className="mt-5 flex">
           <button className="bg-black text-white text-4xl p-5">{currentUser ? '바로구매' : '회원전용'}</button>
 
-          <div className="p-5 border-black border-2 hover:cursor-pointer" onClick={clickLikeHandler}>
+          <div className="p-5 border-black border-2 hover:cursor-pointer" onClick={debounce(clickLikeHandler, 250)}>
             <AiFillHeart size={30} color={isLiked ? 'red' : 'black'} />
           </div>
           <div
@@ -153,7 +152,7 @@ const ProductDetailPage = (props: Props) => {
         <div>
           {isConfirmOpen && !isInBasket && (
             <CofirmationBox
-              onConfirm={handleConfirm}
+              onConfirm={debounce(handleConfirm, 250)}
               onCancel={handleCancel}
               message="장바구니에 추가합니까?"
               nextMessage={null}
