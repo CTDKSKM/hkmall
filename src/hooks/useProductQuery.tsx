@@ -5,12 +5,14 @@ import { changeProductState } from '../utils/fireStore/userInteract';
 import { Product } from '../static/const/type';
 import { useRecoilValue } from 'recoil';
 import { currentPushedLike } from '../atom/currentPushedLike';
+import { useNavigate } from 'react-router-dom';
 
 export const ALL_PRODUCT_QUERY_KEY = 'getAllProduct';
 
 const useProductQuery = () => {
   const queryClient = useQueryClient();
   const isPushed = useRecoilValue(currentPushedLike);
+  const navi = useNavigate();
 
   const { isLoading, isFetching, isError, data, error } = useQuery({
     queryKey: [ALL_PRODUCT_QUERY_KEY],
@@ -29,11 +31,9 @@ const useProductQuery = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [ALL_PRODUCT_QUERY_KEY] });
-    },
-   
+      navi('/mypage/basket');
+    }
   });
-
-  
 
   const updateProductMutation = useMutation({
     mutationFn: changeProductState,
