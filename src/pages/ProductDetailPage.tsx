@@ -79,7 +79,6 @@ const ProductDetailPage = (props: Props) => {
         setInBasket(true);
       } else {
         updateBasketMutation.mutate({ uid: currentUser?.uid, pid: detailData.id, mode: 'addedProducts' });
-        navi('/mypage/basket');
         setInBasket(true);
       }
     } else navi('/login');
