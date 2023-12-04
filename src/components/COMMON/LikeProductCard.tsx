@@ -28,10 +28,10 @@ const LikeProductCard = ({ product, user }: Props) => {
   }
 
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg cardHoverEffect">
-      <img className="w-full h-48 object-cover" src={product.imgs[0]} alt={product.name} />
+    <div className="max-w-sm rounded overflow-hidden shadow-lg cardHoverEffect p-5">
+      <img className="w-full h-48" src={product.imgs[0]} alt={product.name} />
 
-      <div className="px-6 py-4">
+      <div className="px-6 py-4 h-3/6">
         <div className="font-bold text-xl mb-2">{product.name}</div>
         <p className="text-gray-700 text-base mb-2">{product.category}</p>
         <p className="text-gray-700 text-base mb-2">{product.price}원</p>

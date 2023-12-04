@@ -36,7 +36,7 @@ const MyProductLike = (props: Props) => {
   }
 
   return (
-    <div className="lg:w-5/6 h-screen mt-10">
+    <div className="lg:w-5/6 h-5/6 mt-10">
       <div className="p-5">
         <h2 className="font-bold text-2xl">좋아요</h2>
         <h2 className="text-1xl my-3">상품</h2>

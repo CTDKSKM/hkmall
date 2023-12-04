@@ -13,22 +13,26 @@ const ProductCard = ({ item }: Props) => {
 
   return (
     <Link to={`/products/${item.id}`} className="productCardContainer">
-      <div className="overflow-hidden rounded-t-lg items-center justify-center">
+      <div className="w-full justify-center max-h-15.5 items-center p-5">
         <img
           className="hover:scale-125 transition-transform duration-300 w-[160px] h-[200px] p-3"
           src={item.imgs[0]}
           alt="이미지없음"
         />
-      </div>
-      <div>
-        <div className="p-3 w-[150px] mx-3">
-          <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">{item.name}</h5>
-          <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200">{item.price}원</p>
-        </div>
-        {/* <hr className="my-2" /> */}
-        <div className="p-6 flex">
-          <AiFillHeart size={20} color="red" />
-          <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200">{item.like}</p>
+
+        <div className="px-6 py-4 h-3/6">
+          <div className="font-bold text-xl mb-2">{item.name}</div>
+          <p className="text-gray-700 text-base mb-2">{item.category}</p>
+          <p className="text-gray-700 text-base mb-2">{item.price}원</p>
+
+          <div className="flex items-center mb-4">
+            {/* <AiFillHeart className="text-red-500 mr-2" /> */}
+            <p className="text-gray-700 flex">
+              {' '}
+              <AiFillHeart size={20} color="red" />
+              {item.like}
+            </p>
+          </div>
         </div>
       </div>
 
