@@ -5,13 +5,16 @@ import { constSelector, useRecoilValue } from 'recoil';
 import useUserInteractedItemsQuery from '../hooks/useUserLikeQuery';
 import LoadingIndicator from '../components/COMMON/LoadingIndicator';
 import BasketCard from '../components/COMMON/BasketCard';
-import { uncomma } from '../utils/number';
+import { comma, uncomma } from '../utils/number';
 
 type Props = {};
 
 const MyProductBasket = (props: Props) => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const user = useRecoilValue(currentUserState);
+  const [curTotal, setCurTotal] = useState('');
+  const [total, setTotal] = useState('');
+  // const SHIPPING_COST= '5000'
 
   const { data, isLoading, isError } = useUserInteractedItemsQuery(user?.uid || '', 'addedProducts');
 
@@ -19,11 +22,27 @@ const MyProductBasket = (props: Props) => {
     alert('미구현 기능입니다!');
   };
 
+  const makeTotal = () => {
+    const sum = filteredProducts?.reduce((acc, cur) => {
+      const price = parseInt(uncomma(cur.price as string));
+      return acc + price;
+    }, 0);
+
+    // console.log(comma(sum + ''));
+    setCurTotal(comma(sum + ''));
+    setTotal(comma(sum + 5000 + ''));
+  };
+
   useEffect(() => {
     if (data) {
       setFilteredProducts(data);
     }
-  }, [data]);
+    if (filteredProducts !== null) {
+      console.log(filteredProducts);
+
+      makeTotal();
+    }
+  }, [data, filteredProducts]);
 
   if (isLoading) {
     return <LoadingIndicator />;
@@ -31,8 +50,6 @@ const MyProductBasket = (props: Props) => {
   if (isError) {
     console.log('에러가 발생했습니다');
   }
-  // console.log(uncomma(filteredProducts[0].price.toString()));
-  // console.log(uncomma(filteredProducts[1].price.toString()));
 
   return (
     <div className="container mx-auto mt-10">
@@ -53,7 +70,7 @@ const MyProductBasket = (props: Props) => {
         <h2 className="text-xl font-bold mb-4">주문 요약</h2>
         <div className="flex justify-between mb-2">
           <span>상품 금액</span>
-          <span>￦100,000</span>
+          <span>￦{curTotal}</span>
         </div>
         <div className="flex justify-between mb-2">
           <span>배송비</span>
@@ -62,7 +79,7 @@ const MyProductBasket = (props: Props) => {
         <hr className="my-2 border-t" />
         <div className="flex justify-between">
           <span className="font-bold">총 결제 금액</span>
-          <span className="font-bold">￦105,000</span>
+          <span className="font-bold">￦{total}</span>
         </div>
         <button
           className="mt-4 bg-gray-500 text-white px-6 py-3 rounded-md buttonEffect"
