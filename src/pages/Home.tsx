@@ -35,15 +35,13 @@ const Home = (props: Props) => {
   }
 
   return (
-    <div className="bg-gray-100">
-      <div className="h-120 flex items-center justify-center">
-        {/* 쇼핑몰 이미지 그리드 */}
-        <div className="grid-cols-1 sm:grid md:grid-cols-4">
-          {/* 카드 반복 */}
-          {filteredProducts.map((item: Product, key: number) => (
-            <ProductCard item={item} key={key} />
-          ))}
-        </div>
+    <div className="h-200 flex items-center justify-center my-10 bg-gray-100">
+      {/* 쇼핑몰 이미지 그리드 */}
+      <div className="grid-cols-1 sm:grid md:grid-cols-4 py-10">
+        {/* 카드 반복 */}
+        {filteredProducts.map((item: Product, key: number) => (
+          <ProductCard item={item} key={key} />
+        ))}
       </div>
     </div>
   );
