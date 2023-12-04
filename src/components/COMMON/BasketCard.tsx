@@ -24,7 +24,7 @@ const BasketCard = ({ item, user }: Props) => {
   }
 
   return (
-    <div className="bg-white p-4 rounded-md shadow-md">
+    <div className="bg-white p-4 rounded-md shadow-md cardHoverEffect">
       {/* TODO 슬라이더로 구현 */}
       <img src={item.imgs[0]} alt="Product" className="mb-4 rounded-md w-full h-40 object-cover" />
       <h2 className="text-lg font-semibold mb-2">{item.name}</h2>
@@ -32,7 +32,7 @@ const BasketCard = ({ item, user }: Props) => {
       <div className="flex justify-between items-center">
         <span className="text-lg font-bold">￦{item.price}</span>
         <button
-          className="bg-red-500 text-white px-4 py-2 rounded-md"
+          className="bg-red-500 text-white px-4 py-2 rounded-md buttonEffect"
           onClick={() => setIsConfirmOpen((prev) => !prev)}
         >
           삭제

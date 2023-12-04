@@ -28,7 +28,7 @@ const LikeProductCard = ({ product, user }: Props) => {
   }
 
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg">
+    <div className="max-w-sm rounded overflow-hidden shadow-lg cardHoverEffect">
       <img className="w-full h-48 object-cover" src={product.imgs[0]} alt={product.name} />
 
       <div className="px-6 py-4">
@@ -46,7 +46,7 @@ const LikeProductCard = ({ product, user }: Props) => {
         </div>
 
         <button
-          className="bg-red-500 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-red-500 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline buttonEffect"
           onClick={() => setIsConfirmOpen((prev) => !prev)}
         >
           삭제
