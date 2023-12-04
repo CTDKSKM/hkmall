@@ -22,7 +22,7 @@ const ProductImageSlider = ({ imgs }: Props) => {
             inViewThreshold: 0.7,
             dragFree: false
           }}
-          slideHeight="lg:h-[25rem]"
+          slideHeight="h-full lg:h-4/6"
           slideWidth="w-full sm:w-1/2 lg:w-full"
           isSlideLength={true}
           buttonPosition="center"

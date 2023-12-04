@@ -96,8 +96,8 @@ const ProductDetailPage = (props: Props) => {
     );
 
   return (
-    <div className="w-full lg:flex justify-between h-screen">
-      <div className="lg:w-3/5">
+    <div className="w-full lg:flex justify-between max-h-15.5">
+      <div className="lg:w-3/5 sm:h-2/5">
         <div className="text-gray-500">
           <a href="#" className="text-gray-500 underline">
             대분류
