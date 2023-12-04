@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { currentUserState } from '../atom/currentUserState';
 import { useRecoilValue } from 'recoil';
@@ -19,7 +19,6 @@ const MyProductLike = (props: Props) => {
   const { data, isLoading, isError } = useUserInteractedItemsQuery(user?.uid || '', 'likedProducts');
 
   useEffect(() => {
-    console.log(data);
     if (data) {
       setFilteredProducts(data);
     }
