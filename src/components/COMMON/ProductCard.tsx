@@ -20,7 +20,7 @@ const ProductCard = ({ item }: Props) => {
           alt="이미지없음"
         />
       </div>
-      <div className="me-9">
+      <div>
         <div className="p-3 w-[150px] mx-3">
           <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">{item.name}</h5>
           <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200">{item.price}원</p>

@@ -1,5 +1,5 @@
 import AdminController from './AdminController';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { category, currentCategory } from '../../atom/currentCategory';
 import SearchBox from '../SearchPage/SearchBox';
 import { useNavigate } from 'react-router-dom';
@@ -11,12 +11,13 @@ type Props = {};
 const Header = (props: Props) => {
   const navi = useNavigate();
   const setCategory = useSetRecoilState(currentCategory);
+  const current = useRecoilValue(currentCategory);
 
   return (
     <>
       <AdminController />
       <header className="absolute top-0 left-0 w-full">
-        <div className="sm:flex-col flex items-center bg-blue-500 text-white py-8 text-center">
+        <div className="sm:flex-col flex items-center bg-gray-600 text-white py-8 text-center">
           <div className="self-start pl-5">
             <h1 className="text-4xl font-bold hover:cursor-pointer" onClick={() => navi('/')}>
               HK Mall
@@ -44,7 +45,10 @@ const Header = (props: Props) => {
               .map((val, idx) => {
                 return (
                   <li key={idx}>
-                    <button className="hover:text-gray-300" onClick={() => setCategory(val.name)}>
+                    <button
+                      className={`hover:text-gray-300 ${val.name === current ? 'underline' : 'null'}`}
+                      onClick={() => setCategory(val.name)}
+                    >
                       {val.name}
                     </button>
                   </li>
