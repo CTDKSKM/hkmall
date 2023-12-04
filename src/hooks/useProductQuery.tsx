@@ -33,6 +33,7 @@ const useProductQuery = () => {
       queryClient.invalidateQueries({ queryKey: [ALL_PRODUCT_QUERY_KEY] });
       navi('/mypage/basket');
     }
+    
   });
 
   const updateProductMutation = useMutation({
