@@ -9,7 +9,7 @@ const ProductImageSlider = ({ imgs }: Props) => {
   const photoData = imgs;
 
   return (
-    <div className="flex justify-center items-center w-full h-4/5 rounded-md font-thin text-xl my-3 border-black border-2">
+    <div className="flex justify-center items-center w-full h-3/5 rounded-md font-thin text-xl my-3 border-black border-2">
       {!!imgs.length && (
         <EmblaCarousel
           slides={photoData.map((imageSrc, idx) => (
@@ -22,7 +22,7 @@ const ProductImageSlider = ({ imgs }: Props) => {
             inViewThreshold: 0.7,
             dragFree: false
           }}
-          slideHeight="sm:h-[10.5rem] lg:h-[30rem]"
+          slideHeight="lg:h-[25rem]"
           slideWidth="w-full sm:w-1/2 lg:w-full"
           isSlideLength={true}
           buttonPosition="center"
