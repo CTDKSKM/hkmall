@@ -108,10 +108,12 @@ const addProduct = async ({
       category,
       like
     });
-    images.map((image, key) => {
-      // 이미지 업로드
-      uploadImage(image, key, docRef.id);
-    });
+    await Promise.all(
+      images.map(async (image, key) => {
+        // 이미지 업로드
+        await uploadImage(image, key, docRef.id);
+      })
+    );
     alert('상품 등록 완료!');
   } catch (error) {
     alert('상품 등록에 실패하였습니다');
@@ -146,7 +148,7 @@ const uploadImage = async (image: File, key: number, productId: string) => {
     const storageRef = ref(storage, `products/${productId}/image_${key}`);
 
     // 'file' comes from the Blob or File API
-    uploadBytes(storageRef, image).then((snapshot) => {
+    await uploadBytes(storageRef, image).then((snapshot) => {
       console.log('Uploaded a blob or file!');
     });
   } catch (error) {
