@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Product } from '../static/const/type';
 import { currentUserState } from '../atom/currentUserState';
-import { useRecoilValue } from 'recoil';
+import { constSelector, useRecoilValue } from 'recoil';
 import useUserInteractedItemsQuery from '../hooks/useUserLikeQuery';
 import LoadingIndicator from '../components/COMMON/LoadingIndicator';
 import BasketCard from '../components/COMMON/BasketCard';
+import { uncomma } from '../utils/number';
 
 type Props = {};
 
@@ -13,6 +14,10 @@ const MyProductBasket = (props: Props) => {
   const user = useRecoilValue(currentUserState);
 
   const { data, isLoading, isError } = useUserInteractedItemsQuery(user?.uid || '', 'addedProducts');
+
+  const completeOrderHandler = () => {
+    alert('미구현 기능입니다!');
+  };
 
   useEffect(() => {
     if (data) {
@@ -26,6 +31,8 @@ const MyProductBasket = (props: Props) => {
   if (isError) {
     console.log('에러가 발생했습니다');
   }
+  // console.log(uncomma(filteredProducts[0].price.toString()));
+  // console.log(uncomma(filteredProducts[1].price.toString()));
 
   return (
     <div className="container mx-auto mt-10">
@@ -57,7 +64,12 @@ const MyProductBasket = (props: Props) => {
           <span className="font-bold">총 결제 금액</span>
           <span className="font-bold">￦105,000</span>
         </div>
-        <button className="mt-4 bg-gray-500 text-white px-6 py-3 rounded-md">주문 완료</button>
+        <button
+          className="mt-4 bg-gray-500 text-white px-6 py-3 rounded-md buttonEffect"
+          onClick={completeOrderHandler}
+        >
+          주문 완료
+        </button>
       </div>
     </div>
   );
