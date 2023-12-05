@@ -45,7 +45,7 @@ const Home = (props: Props) => {
   }
 
   return (
-    <div className="w-4/5 mx-auto sm:w-4/5 lg:w-3/5 h-200 flex items-center justify-center my-10 ">
+    <div className="w-full flex items-center justify-center my-10 ">
       {/* 쇼핑몰 이미지 그리드 */}
       <div className="px-3 grid-cols-2 gap-2 sm:gap-2 md:gap-3 lg:gap-5 sm:grid md:grid-cols-3 lg:grid-cols-4 py-10">
         {/* 카드 반복 */}

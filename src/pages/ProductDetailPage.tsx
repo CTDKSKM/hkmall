@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ProductImageSlider from '../components/ProductDetailPage/ProductImageSlider';
-import { AiFillHeart, AiFillShopping } from 'react-icons/ai';
+import { AiFillShopping } from 'react-icons/ai';
 import { Product } from '../static/const/type';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { hasPushedLike } from '../utils/fireStore/userInteract';
@@ -10,27 +10,25 @@ import CofirmationBox from '../components/COMMON/CofirmationBox';
 import useProductQuery, { ALL_PRODUCT_QUERY_KEY } from '../hooks/useProductQuery';
 import { useQueryClient } from '@tanstack/react-query';
 import LoadingIndicator from '../components/COMMON/LoadingIndicator';
-import { currentPushedLike } from '../atom/currentPushedLike';
 import debounce from 'lodash/debounce';
 import { Link } from 'react-router-dom';
 import { category, currentCategory } from '../atom/currentCategory';
+import LikeContainer from '../components/COMMON/LikeContainer';
 
 type Props = {};
 
 const ProductDetailPage = (props: Props) => {
   const query = useQueryClient();
   const data = query.getQueryData([ALL_PRODUCT_QUERY_KEY]) as Product[];
-  const [isLiked, setIsLiked] = useState(false);
   const [isInBasket, setInBasket] = useState(false);
   const { pid } = useParams();
-
   const [detailData, setDetailData] = useState<Product>();
 
   const currentUser = useRecoilValue(currentUserState);
-  const setLike = useSetRecoilState(currentPushedLike);
+
   const setCategory = useSetRecoilState(currentCategory);
   const navi = useNavigate();
-  const { updateProductMutation, updateBasketMutation } = useProductQuery();
+  const { updateBasketMutation } = useProductQuery();
 
   useEffect(() => {
     if (data) {
@@ -40,27 +38,10 @@ const ProductDetailPage = (props: Props) => {
     }
   }, [data]);
 
-  // 좋아요 클릭 핸들러
-  const clickLikeHandler = () => {
-    if (currentUser && detailData) {
-      setIsLiked((prev) => !prev);
-      setLike(isLiked);
-      updateProductMutation.mutate({ uid: currentUser?.uid, pid: detailData.id, mode: 'likedProducts' });
-      // 하트 색깔 on/off
-    } else navi('/login');
-  };
-
   useEffect(() => {
     // Initialize isLiked on the initial render
 
-    // 첫 랜더링 시 장바구니, 좋아요 여부 확인
-    if (data) {
-      hasPushedLike(currentUser?.uid!, pid!, 'likedProducts').then((pushed) => {
-        try {
-          setIsLiked(pushed!);
-        } catch {}
-      });
-    }
+    // 첫 랜더링 시 장바구니 여부 확인
     if (data) {
       hasPushedLike(currentUser?.uid!, pid!, 'addedProducts').then((pushed) => {
         try {
@@ -122,7 +103,9 @@ const ProductDetailPage = (props: Props) => {
           </Link>
         </div>
         <p className="text-2xl font-extrabold">{detailData.name}</p>
-        <ProductImageSlider imgs={detailData.imgs} />
+        <div className="flex justify-center items-center">
+          <ProductImageSlider imgs={detailData.imgs} />
+        </div>
       </div>
 
       <div className="lg:w-1/3">
@@ -139,17 +122,14 @@ const ProductDetailPage = (props: Props) => {
         <div className="flex">
           <p className="mr-3">좋아요</p>
 
-          <AiFillHeart size={20} color="red" />
-
-          <p className="text-red-600">{detailData.like}</p>
+          <LikeContainer item={detailData} />
         </div>
 
-        <div className="mt-5 flex">
-          <button className="bg-black text-white text-4xl p-5">{currentUser ? '바로구매' : '회원전용'}</button>
+        <div className="my-5 flex">
+          <button className="bg-black text-white sm:text-2xl md:text-3xl lg:text-4xl p-4">
+            {currentUser ? '바로구매' : '회원전용'}
+          </button>
 
-          <div className="p-5 border-black border-2 hover:cursor-pointer" onClick={debounce(clickLikeHandler, 250)}>
-            <AiFillHeart size={30} color={isLiked ? 'red' : 'black'} />
-          </div>
           <div
             className="p-5 border-black border-2 hover:cursor-pointer"
             onClick={() => setIsConfirmOpen((prev) => !prev)}
