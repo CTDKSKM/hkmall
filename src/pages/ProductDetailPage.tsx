@@ -94,13 +94,16 @@ const ProductDetailPage = (props: Props) => {
     <div className="w-full lg:flex justify-between max-h-15.5">
       <div className="lg:w-3/5 sm:h-2/5">
         <div className="text-gray-500">
-          <Link
-            to={`/${Object.keys(category).find((key) => category[key] === detailData?.category)}`}
-            className="text-gray-500 underline"
-            onClick={handleLinkClick}
-          >
-            {detailData?.category}
-          </Link>
+          <div>
+            카테고리 {'>'}
+            <Link
+              to={`/${Object.keys(category).find((key) => category[key] === detailData?.category)}`}
+              className="text-gray-500 underline"
+              onClick={handleLinkClick}
+            >
+              {detailData?.category}
+            </Link>
+          </div>
         </div>
         <p className="text-2xl font-extrabold">{detailData.name}</p>
         <div className="flex justify-center items-center">
