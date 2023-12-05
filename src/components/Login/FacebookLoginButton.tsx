@@ -18,10 +18,10 @@ const FacebookLoginButton = (props: Props) => {
       .then((result) => {
         // The signed-in user info.
         const user = result.user;
-
         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
         const credential = FacebookAuthProvider.credentialFromResult(result);
         const accessToken = credential!.accessToken;
+        console.log('성공!', user, credential, accessToken);
         if (user) {
           // alert('로그인 완료!');
           navi('/');
@@ -35,7 +35,7 @@ const FacebookLoginButton = (props: Props) => {
         const email = error.customData.email;
         // The AuthCredential type that was used.
         const credential = FacebookAuthProvider.credentialFromError(error);
-
+        console.log('실패==>', errorCode, errorMessage, credential);
         // ...
       });
   };
