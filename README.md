@@ -1,4 +1,4 @@
-# HK MALL  <img src="https://github.com/CTDKSKM/hkmall/assets/69897998/8043e196-089c-43a2-9d3f-bd1c201555fb"  width="45" height="45"/>
+# ``HK MALL`` :tshirt:
 
 
 ## 프로젝트 소개
