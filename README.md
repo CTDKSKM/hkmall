@@ -1,4 +1,4 @@
-<img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=header&text=HK MALL&fontSize=90" />
+# HK MALL  ![logo](https://github.com/CTDKSKM/hkmall/assets/69897998/8043e196-089c-43a2-9d3f-bd1c201555fb)
 
 
 ## 프로젝트 소개
