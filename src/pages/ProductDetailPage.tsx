@@ -94,7 +94,7 @@ const ProductDetailPage = (props: Props) => {
     <div className="w-full lg:flex justify-between max-h-15.5">
       <div className="lg:w-3/5 sm:h-2/5">
         <div className="text-gray-500">
-          <div>
+          <div className="bg-gray-200 inline-block max-content">
             카테고리 {'>'}
             <Link
               to={`/${Object.keys(category).find((key) => category[key] === detailData?.category)}`}
