@@ -5,9 +5,12 @@ import useProductQuery from '../../../hooks/useProductQuery';
 type Props = {};
 
 const categories = [
-  { id: 1, name: '티셔츠' },
-  { id: 2, name: '트레이닝복' },
-  { id: 3, name: '모자' }
+  { id: 1, name: '상의' },
+  { id: 2, name: '하의' },
+  { id: 3, name: '신발' },
+  { id: 4, name: '모자' },
+  { id: 5, name: '악세사리' }
+
   // 추가 카테고리들...
 ];
 const ProductManage = (props: Props) => {

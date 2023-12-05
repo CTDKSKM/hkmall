@@ -17,7 +17,7 @@ const MyProductLike = (props: Props) => {
   const user = useRecoilValue(currentUserState);
 
   const { data, isLoading, isError, refetch } = useUserInteractedItemsQuery(user?.uid || '', 'likedProducts');
-
+  
   useEffect(() => {
     if (data) {
       setFilteredProducts(data);
