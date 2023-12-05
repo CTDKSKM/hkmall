@@ -1,4 +1,3 @@
-import AdminController from './AdminController';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { category, currentCategory } from '../../atom/currentCategory';
 import SearchBox from '../SearchPage/SearchBox';
@@ -16,7 +15,6 @@ const Header = (props: Props) => {
 
   return (
     <>
-      <AdminController />
       <header className="absolute top-0 left-0 w-full">
         <div className="sm:flex-col flex items-center bg-gray-600 text-white py-8 text-center">
           <div className="self-start pl-5">

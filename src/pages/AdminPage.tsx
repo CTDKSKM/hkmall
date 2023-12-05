@@ -1,21 +1,26 @@
 import React, { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import AdminNavigationBar from '../components/AdminPage/AdminNavigationBar';
 import { adminNavigationComponentState } from '../atom/adminNavigationState';
+import { auth } from '../firebase/firebase';
 
 type Props = {};
 
 const AdminPage = (props: Props) => {
-  const { state } = useLocation();
   const navigate = useNavigate();
   const component = useRecoilValue(adminNavigationComponentState);
 
-  // useEffect(() => {
-  //   if (state !== +process.env.REACT_APP_ADMIN_STATE!) navigate('/');
-  // }, [state]);
-
-  // if (state !== 3) return <div>잘못된 접근입니다.</div>;
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (
+        !user ||
+        (user && ![process.env.REACT_APP_ADMIN_UID_1, process.env.REACT_APP_ADMIN_UID_2].includes(user.uid))
+      ) {
+        navigate('/');
+      }
+    });
+  }, []);
 
   return (
     <div>

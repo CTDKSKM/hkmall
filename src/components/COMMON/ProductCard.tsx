@@ -1,16 +1,14 @@
 import React from 'react';
 import { Product } from '../../static/const/type';
 import { Link } from 'react-router-dom';
-import useProductQuery from '../../hooks/useProductQuery';
 import { AiFillHeart } from 'react-icons/ai';
+import LikeContainer from './LikeContainer';
 
 type Props = {
   item: Product;
 };
 
 const ProductCard = ({ item }: Props) => {
-  const { deleteProductMutation } = useProductQuery();
-
   return (
     <Link to={`/products/${item.id}`}>
       <div className="productCardContainer">
@@ -22,18 +20,17 @@ const ProductCard = ({ item }: Props) => {
           />
         </div>
 
-        <div className="px-2 py-4 h-1/3">
-          <div className="font-bold text-xl mb-2">{item.name}</div>
-          <p className="text-gray-700 text-base mb-2">{item.category}</p>
-          <p className="text-gray-700 text-base mb-2">{item.price}원</p>
+        <div className="flex flex-col gap-2 p-2">
+          <div className="font-bold text-xl">{item.name}</div>
+          <p className="text-gray-700 text-base">{item.category}</p>
+          <p className="text-gray-700 text-base">{item.price}원</p>
 
-          <div className="flex items-center mb-4">
-            {/* <AiFillHeart className="text-red-500 mr-2" /> */}
-            <p className="text-gray-700 flex">
-              {' '}
+          <div className="flex justify-end">
+            <LikeContainer item={item} />
+            {/* <div className="text-gray-700 flex items-center z-50">
               <AiFillHeart size={20} color="red" />
               {item.like}
-            </p>
+            </div> */}
           </div>
         </div>
       </div>
