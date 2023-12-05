@@ -27,7 +27,8 @@
 ### Deployment
 <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"/>
 
-
+## 서비스 아키텍처
+<img src="gs://with-ts.appspot.com/arc/hkmall Architecture.png"/>
 
 
 <br/><br/>
