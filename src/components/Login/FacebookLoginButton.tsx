@@ -11,9 +11,7 @@ const FacebookLoginButton = (props: Props) => {
   const LoginWithFacebook = () => {
     const provider = new FacebookAuthProvider();
     provider.addScope('public_profile');
-    provider.setCustomParameters({
-      display: 'popup'
-    });
+
     signInWithPopup(auth, provider)
       .then((result) => {
         // The signed-in user info.
