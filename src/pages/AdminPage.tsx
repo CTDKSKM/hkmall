@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router';
 import AdminNavigationBar from '../components/AdminPage/AdminNavigationBar';
@@ -10,6 +10,7 @@ type Props = {};
 const AdminPage = (props: Props) => {
   const navigate = useNavigate();
   const component = useRecoilValue(adminNavigationComponentState);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -18,10 +19,13 @@ const AdminPage = (props: Props) => {
         (user && ![process.env.REACT_APP_ADMIN_UID_1, process.env.REACT_APP_ADMIN_UID_2].includes(user.uid))
       ) {
         navigate('/');
+      } else {
+        setIsAdmin(true);
       }
     });
   }, []);
 
+  if (!isAdmin) return <></>;
   return (
     <div>
       <AdminNavigationBar />
