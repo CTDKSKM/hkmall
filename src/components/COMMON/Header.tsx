@@ -1,17 +1,23 @@
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { category, currentCategory } from '../../atom/currentCategory';
+// import AdminController from './AdminController';
+
+import { category } from '../../atom/currentCategory';
 import SearchBox from '../SearchPage/SearchBox';
 import { useLocation, useNavigate } from 'react-router-dom';
 import LoginInfoBox from './LoginInfoBox';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 type Props = {};
 
 const Header = (props: Props) => {
   const navi = useNavigate();
-  const setCategory = useSetRecoilState(currentCategory);
-  const current = useRecoilValue(currentCategory);
-  const currentPath = useLocation().pathname;
+
+  const location = useLocation();
+
+  const [path, setPath] = useState('');
+  useEffect(() => {
+    setPath(location.pathname);
+  }, [location.pathname]);
 
   return (
     <>
@@ -38,24 +44,23 @@ const Header = (props: Props) => {
           </ul>
 
           {/* 상품 카테고리 메뉴 */}
-          {currentPath === '/' ? (
-            <ul className="flex justify-between space-x-4 bg-gray-700">
-              {Object.entries(category)
-                .map(([id, name]) => ({ id, name }))
-                .map((val, idx) => {
-                  return (
-                    <li key={idx}>
-                      <button
-                        className={`hover:text-gray-300 ${val.name === current ? 'underline' : 'null'}`}
-                        onClick={() => setCategory(val.name)}
-                      >
-                        {val.name}
-                      </button>
-                    </li>
-                  );
-                })}
-            </ul>
-          ) : null}
+
+          <ul className="flex justify-between space-x-4 bg-gray-700">
+            {Object.entries(category)
+              .map(([id, name]) => ({ id, name }))
+              .map((val, idx) => {
+                return (
+                  <li key={idx}>
+                    <Link
+                      to={`/${val.id}`}
+                      className={`hover:text-gray-300 ${path.includes(val.id) ? 'underline' : 'null'}`}
+                    >
+                      {val.name}
+                    </Link>
+                  </li>
+                );
+              })}
+          </ul>
 
           <LoginInfoBox />
         </nav>

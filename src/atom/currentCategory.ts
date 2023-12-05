@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const category = {
+export const category: Record<string, string> = {
   ALL: '전체',
   TOP: '상의',
   BOTTOM: '하의',
@@ -12,3 +12,4 @@ export const currentCategory = atom<string>({
   key: 'currentCategory',
   default: category.ALL
 });
+
