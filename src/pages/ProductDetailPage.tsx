@@ -93,7 +93,9 @@ const ProductDetailPage = (props: Props) => {
           </a>
         </div>
         <p className="text-2xl font-extrabold">{detailData.name}</p>
-        <ProductImageSlider imgs={detailData.imgs} />
+        <div className="flex justify-center items-center">
+          <ProductImageSlider imgs={detailData.imgs} />
+        </div>
       </div>
 
       <div className="lg:w-1/3">
@@ -113,8 +115,10 @@ const ProductDetailPage = (props: Props) => {
           <LikeContainer item={detailData} />
         </div>
 
-        <div className="mt-5 flex">
-          <button className="bg-black text-white text-4xl p-5">{currentUser ? '바로구매' : '회원전용'}</button>
+        <div className="my-5 flex">
+          <button className="bg-black text-white sm:text-2xl md:text-3xl lg:text-4xl p-4">
+            {currentUser ? '바로구매' : '회원전용'}
+          </button>
 
           <div
             className="p-5 border-black border-2 hover:cursor-pointer"
