@@ -12,6 +12,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import LoadingIndicator from '../components/COMMON/LoadingIndicator';
 import { currentPushedLike } from '../atom/currentPushedLike';
 import debounce from 'lodash/debounce';
+import { Link } from 'react-router-dom';
+import { category, currentCategory } from '../atom/currentCategory';
 
 type Props = {};
 
@@ -26,6 +28,7 @@ const ProductDetailPage = (props: Props) => {
 
   const currentUser = useRecoilValue(currentUserState);
   const setLike = useSetRecoilState(currentPushedLike);
+  const setCategory = useSetRecoilState(currentCategory);
   const navi = useNavigate();
   const { updateProductMutation, updateBasketMutation } = useProductQuery();
 
@@ -96,21 +99,27 @@ const ProductDetailPage = (props: Props) => {
       </div>
     );
 
+  const handleLinkClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault(); // 기본 동작인 링크 이동을 막습니다.
+    setCategory(detailData.category);
+
+    const href = event.currentTarget.getAttribute('href');
+    if (href) {
+      window.location.href = href;
+    }
+  };
+
   return (
     <div className="w-full lg:flex justify-between max-h-15.5">
       <div className="lg:w-3/5 sm:h-2/5">
         <div className="text-gray-500">
-          <a href="#" className="text-gray-500 underline">
-            대분류
-          </a>
-          {'>'}
-          <a
-            href="/"
-            className="text-gray-500  underline"
-            // onClick={() => setCategory(detailData.category as Category)}
+          <Link
+            to={`/${Object.keys(category).find((key) => category[key] === detailData?.category)}`}
+            className="text-gray-500 underline"
+            onClick={handleLinkClick}
           >
-            소분류
-          </a>
+            {detailData?.category}
+          </Link>
         </div>
         <p className="text-2xl font-extrabold">{detailData.name}</p>
         <ProductImageSlider imgs={detailData.imgs} />

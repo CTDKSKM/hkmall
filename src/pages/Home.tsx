@@ -1,30 +1,40 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+
 import ProductCard from '../components/COMMON/ProductCard';
 import useProductQuery from '../hooks/useProductQuery';
 import { Product } from '../static/const/type';
 import LoadingIndicator from '../components/COMMON/LoadingIndicator';
-import { currentCategory } from '../atom/currentCategory';
-import { productData } from '../atom/productData';
+import { category } from '../atom/currentCategory';
+
+import { useLocation } from 'react-router-dom';
 
 type Props = {};
 
 const Home = (props: Props) => {
   const { isLoading, isError, data, error } = useProductQuery();
 
-  const category = useRecoilValue(currentCategory);
-  const setData = useSetRecoilState(productData);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
-  useEffect(() => {
-    if (data) setData(data);
+  const location = useLocation();
 
-    if (data && category === '전체') {
-      setFilteredProducts(data);
-    } else if (data) {
-      setFilteredProducts(data.filter((v) => v.category === category));
+  const [path, setPath] = useState('');
+
+  useEffect(() => {
+    setPath(location.pathname);
+
+    if (data && !isLoading) {
+      const filtered = data.filter((product) => {
+        const categoryKey = Object.keys(category).find((key) => category[key] === product.category);
+        return categoryKey && path.includes(categoryKey);
+      });
+
+      setFilteredProducts(filtered);
     }
-  }, [category, data]);
+
+    if (path === '/' || path === '/ALL') {
+      setFilteredProducts(data as Product[]);
+    }
+  }, [data, location.pathname, path]);
 
   if (isLoading) {
     return <LoadingIndicator />;
@@ -39,7 +49,7 @@ const Home = (props: Props) => {
       {/* 쇼핑몰 이미지 그리드 */}
       <div className="px-3 grid-cols-2 gap-2 sm:gap-2 md:gap-3 lg:gap-5 sm:grid md:grid-cols-3 lg:grid-cols-4 py-10">
         {/* 카드 반복 */}
-        {filteredProducts.map((item: Product, key: number) => (
+        {filteredProducts?.map((item: Product, key: number) => (
           <ProductCard item={item} key={key} />
         ))}
       </div>
