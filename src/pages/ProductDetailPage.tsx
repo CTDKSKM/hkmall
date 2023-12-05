@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ProductImageSlider from '../components/ProductDetailPage/ProductImageSlider';
 import { AiFillShopping } from 'react-icons/ai';
 import { Product } from '../static/const/type';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { hasPushedLike } from '../utils/fireStore/userInteract';
 import { currentUserState } from '../atom/currentUserState';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -11,6 +11,8 @@ import useProductQuery, { ALL_PRODUCT_QUERY_KEY } from '../hooks/useProductQuery
 import { useQueryClient } from '@tanstack/react-query';
 import LoadingIndicator from '../components/COMMON/LoadingIndicator';
 import debounce from 'lodash/debounce';
+import { Link } from 'react-router-dom';
+import { category, currentCategory } from '../atom/currentCategory';
 import LikeContainer from '../components/COMMON/LikeContainer';
 
 type Props = {};
@@ -23,6 +25,8 @@ const ProductDetailPage = (props: Props) => {
   const [detailData, setDetailData] = useState<Product>();
 
   const currentUser = useRecoilValue(currentUserState);
+
+  const setCategory = useSetRecoilState(currentCategory);
   const navi = useNavigate();
   const { updateBasketMutation } = useProductQuery();
 
@@ -76,21 +80,30 @@ const ProductDetailPage = (props: Props) => {
       </div>
     );
 
+  const handleLinkClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault(); // 기본 동작인 링크 이동을 막습니다.
+    setCategory(detailData.category);
+
+    const href = event.currentTarget.getAttribute('href');
+    if (href) {
+      window.location.href = href;
+    }
+  };
+
   return (
     <div className="w-full lg:flex justify-between max-h-15.5">
       <div className="lg:w-3/5 sm:h-2/5">
         <div className="text-gray-500">
-          <a href="#" className="text-gray-500 underline">
-            대분류
-          </a>
-          {'>'}
-          <a
-            href="/"
-            className="text-gray-500  underline"
-            // onClick={() => setCategory(detailData.category as Category)}
-          >
-            소분류
-          </a>
+          <div>
+            카테고리 {'>'}
+            <Link
+              to={`/${Object.keys(category).find((key) => category[key] === detailData?.category)}`}
+              className="text-gray-500 underline"
+              onClick={handleLinkClick}
+            >
+              {detailData?.category}
+            </Link>
+          </div>
         </div>
         <p className="text-2xl font-extrabold">{detailData.name}</p>
         <div className="flex justify-center items-center">
