@@ -69,6 +69,7 @@
 - 제품을 등록하면 해당 제품의 정보를 Firebase 백앤드에 저장합니다.
 
 
+
 ## :sunglasses:주요 파일 및 폴더
 
 #### 📜 useProductQuery.tsx, useUserLikeQuery.tsx: 유저가 상품에 대한 상호작용을 react-query문으로 제어할 수 있는 파일들.
