@@ -38,14 +38,10 @@
 
 | 작업                                       | 미리보기                           |
 | ------------------------------------------ | ----------------------------- |
-| **메인 페이지**                           |  ![메인페이지](https://github.com/CTDKSKM/hkmall/assets/69897998/1e8a4f2a-8985-4b70-a02f-a016a6e3caab)
-       |
-| **로그인 페이지**                         |  ![로그인페이지](https://github.com/CTDKSKM/hkmall/assets/69897998/ed88940f-47d3-450a-ba96-04ab0cf0346a)
-     |
-| **장바구니 추가**                         |  ![장바구니](https://github.com/CTDKSKM/hkmall/assets/69897998/f0ec0c51-bbac-4916-b3df-eacbd11c72b4)
-       |
-| **장바구니 & 좋아요 품목 삭제**        |    ![삭제](https://github.com/CTDKSKM/hkmall/assets/69897998/7788409b-cf5c-40e7-94ff-91d6ad25d373)
-           |
+| **메인 페이지**                           |  ![메인페이지](https://github.com/CTDKSKM/hkmall/assets/69897998/1e8a4f2a-8985-4b70-a02f-a016a6e3caab)|
+| **로그인 페이지**                         |  ![로그인페이지](https://github.com/CTDKSKM/hkmall/assets/69897998/ed88940f-47d3-450a-ba96-04ab0cf0346a)|
+| **장바구니 추가**                         |  ![장바구니](https://github.com/CTDKSKM/hkmall/assets/69897998/f0ec0c51-bbac-4916-b3df-eacbd11c72b4)|
+| **장바구니 & 좋아요 품목 삭제**        |    ![삭제](https://github.com/CTDKSKM/hkmall/assets/69897998/7788409b-cf5c-40e7-94ff-91d6ad25d373)|
 | **제품 등록(관리자 전용)**                | [제품 추가]          |
 
 ---
