@@ -13,6 +13,8 @@
 
 **(23.11.20~23.12.05)**
 
+<br/><br/>
+
 ## :sunflower: Stacks
 
 ### Version Control
@@ -26,6 +28,8 @@
 
 ### Deployment
 <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"/>
+
+<br/><br/>
 
 ## 서비스 아키텍처
 <img src="https://firebasestorage.googleapis.com/v0/b/with-ts.appspot.com/o/arc%2Fhkmall%20Architecture.png?alt=media&token=70a258f5-31b4-4915-825e-f8788009cb5f"/>
