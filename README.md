@@ -28,7 +28,7 @@
 <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"/>
 
 ## 서비스 아키텍처
-<img src="https://firebasestorage.googleapis.com/v0/b/ts-hk-mall.appspot.com/o/etc%2Farchitecture%2Fhkmall%20Architecture.png?alt=media&token=7fbda361-3ed2-4f4d-9a57-c547e1a7a280"/>
+<img src="https://firebasestorage.googleapis.com/v0/b/with-ts.appspot.com/o/arc%2Fhkmall%20Architecture.png?alt=media&token=70a258f5-31b4-4915-825e-f8788009cb5f"/>
 
 
 <br/><br/>
@@ -71,12 +71,7 @@
 
 ## :sunglasses:주요 파일 및 폴더
 
-#### 유저가 상품에 대한 상호작용을 react-query문으로 제어할 수 있는 파일들
-📦hooks
- ┣ 📜useProductQuery.tsx
- ┗ 📜useUserLikeQuery.tsx
-
-
+#### 📜 useProductQuery.tsx, useUserLikeQuery.tsx: 유저가 상품에 대한 상호작용을 react-query문으로 제어할 수 있는 파일들.
 #### - example.ts: 설명
 #### - example.ts: 설명
 #### - example.ts: 설명
