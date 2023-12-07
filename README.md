@@ -7,11 +7,13 @@
 
 **배포 링크**: https://hkmall-one.vercel.app/
 
-***
+<br/><br/>
 
-### :boxing_glove: 개발기간
+## :boxing_glove: 개발기간
 
 **(23.11.20~23.12.05)**
+
+<br/><br/>
 
 ## :sunflower: Stacks
 
@@ -27,8 +29,10 @@
 ### Deployment
 <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"/>
 
+<br/><br/>
+
 ## 서비스 아키텍처
-<img src="https://firebasestorage.googleapis.com/v0/b/with-ts.appspot.com/o/arc%2Fhkmall%20Architecture.png?alt=media&token=70a258f5-31b4-4915-825e-f8788009cb5f"/>
+<img src="https://firebasestorage.googleapis.com/v0/b/ts-hk-mall.appspot.com/o/etc%2Farchitecture%2Fhkmall%20Architecture.png?alt=media&token=7fbda361-3ed2-4f4d-9a57-c547e1a7a280"/>
 
 
 <br/><br/>
@@ -42,7 +46,7 @@
 | **로그인 페이지**                         |  ![로그인페이지](https://github.com/CTDKSKM/hkmall/assets/69897998/ed88940f-47d3-450a-ba96-04ab0cf0346a)|
 | **장바구니 추가**                         |  ![장바구니](https://github.com/CTDKSKM/hkmall/assets/69897998/f0ec0c51-bbac-4916-b3df-eacbd11c72b4)|
 | **장바구니 & 좋아요 품목 삭제**        |    ![삭제](https://github.com/CTDKSKM/hkmall/assets/69897998/7788409b-cf5c-40e7-94ff-91d6ad25d373)|
-| **제품 등록(관리자 전용)**                | [제품 추가]          |
+| **제품 등록(관리자 전용)**                |  ![제품 추가](https://github.com/CTDKSKM/hkmall/assets/69897998/7581df85-e702-4340-baf1-5c419dad1ee7) |
 
 ---
 
@@ -61,12 +65,19 @@
 - 로그인한 현재 회원이 좋아요, 장바구니로 제품의 상태에 영향을 줍니다.
 
 
-#### 좋아요, 장바구니 페이지
+### 좋아요, 장바구니 페이지
 
 - 좋아요 및 장바구니 추가한 제품을 확인하고 삭제할 수 있습니다.
 
 
-#### 관리자 페이지
+### 관리자 페이지
+
+- 관리자 권한이 있는 회원으로 로그인 시, /admin 으로 들어갈 수 있습니다. 제품을 관리할 수 있는 페이지입니다.
+- 제품을 등록하면 해당 제품의 정보를 Firebase 백앤드에 저장합니다.
+
+### 소셜 로그인
+
+- 구글, 페이스북으로도 회원 가입 및 로그인 가능합니다.
 
 - 관리자 권한이 있는 회원으로 로그인 시, /admin 으로 들어갈 수 있습니다. 제품을 관리할 수 있는 페이지입니다.
 - 제품을 등록하면 해당 제품의 정보를 Firebase 백앤드에 저장합니다.
@@ -75,11 +86,12 @@
 
 ## :sunglasses:주요 파일 및 폴더
 
-#### 📜 useProductQuery.tsx, useUserLikeQuery.tsx: 유저가 상품에 대한 상호작용을 react-query문으로 제어할 수 있는 파일들.
-#### - example.ts: 설명
-#### - example.ts: 설명
-#### - example.ts: 설명
-
+#### 📜 useProductQuery.tsx, useUserLikeQuery.tsx: 유저가 상품에 대한 상호작용을 react-query문으로 제어할 수 있는 파일들입니다.
+#### 📜Router.tsx: 사용할 때 페이지를 이동할 때 필요한 라이브러리가 담긴 파일입니다.
+#### 📜firebase.ts: Firebase 환경 설정 파일입니다.
+#### 📜dataManage.ts: DB에 담긴 전체 상품 데이터와 유저의 좋아요, 장바구니 리스트를 가져오는 비동기 함수들이 있습니다.
+#### 📜ProductDetailPage.ts: 제품의 상세 정보들을 가져오고 좋아요, 장바구니 유무에 따라 정보를 관리 해줍니다.
+#### 📜GoogleLoginButton.ts: 인증 정보를 통해 구글 로그인 관리를 해줍니다.
 
 
 <br/><br/>
