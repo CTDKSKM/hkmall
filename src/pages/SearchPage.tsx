@@ -9,8 +9,8 @@ type Props = {};
 
 const SearchPage = (props: Props) => {
   const [searchParams] = useSearchParams();
-  const value = searchParams.get('q') || '';
-  const data = useRecoilValue(productData).filter((product) => product.name.includes(value));
+  const value = searchParams.get('q')?.trim().replaceAll(' ', '') || '';
+  const data = useRecoilValue(productData).filter((product) => product.name.trim().replaceAll(' ', '').includes(value));
 
   if (!value) return <p>검색어 "{value}"로 검색된 결과가 없습니다.</p>;
 

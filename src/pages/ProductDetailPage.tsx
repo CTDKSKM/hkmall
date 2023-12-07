@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import ProductImageSlider from '../components/ProductDetailPage/ProductImageSlider';
 import { AiFillShopping } from 'react-icons/ai';
 import { Product } from '../static/const/type';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { hasPushedLike } from '../utils/fireStore/userInteract';
+import { hasPushedLike } from '../firebase/fireStore/userInteract';
 import { currentUserState } from '../atom/currentUserState';
 import { useNavigate, useParams } from 'react-router-dom';
 import CofirmationBox from '../components/COMMON/CofirmationBox';
@@ -14,6 +13,7 @@ import debounce from 'lodash/debounce';
 import { Link } from 'react-router-dom';
 import { category, currentCategory } from '../atom/currentCategory';
 import LikeContainer from '../components/COMMON/LikeContainer';
+import ProductImageSlider from '../components/ProductDetailPage/ProductImageSlider';
 
 type Props = {};
 
@@ -39,8 +39,6 @@ const ProductDetailPage = (props: Props) => {
   }, [data]);
 
   useEffect(() => {
-    // Initialize isLiked on the initial render
-
     // 첫 랜더링 시 장바구니 여부 확인
     if (data) {
       hasPushedLike(currentUser?.uid!, pid!, 'addedProducts').then((pushed) => {

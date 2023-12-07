@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ProductImageContainer from './ProductImageContainer';
 import useProductQuery from '../../../hooks/useProductQuery';
+import { inputNumberFormat } from '../../../utils/number';
 
 type Props = {};
 
@@ -142,17 +143,3 @@ const ProductManage = (props: Props) => {
 };
 
 export default ProductManage;
-
-function comma(str: string) {
-  str = String(str);
-  return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-}
-
-function uncomma(str: string) {
-  str = String(str);
-  return str.replace(/[^\d]+/g, '');
-}
-
-function inputNumberFormat(value: string) {
-  return comma(uncomma(value));
-}

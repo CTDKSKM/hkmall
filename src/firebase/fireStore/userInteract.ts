@@ -1,5 +1,5 @@
 import { arrayRemove, arrayUnion, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../../firebase/firebase';
+import { db } from '../firebase';
 
 /**
  * 해당 상품을 눌림 유무를 리턴
@@ -42,14 +42,12 @@ const changeProductLike = async (pid: string, mode: string) => {
       // If mode is 'up', increment the 'like' field
       const updatedLikes = (productData.like || 0) + 1;
       await updateDoc(productDocRef, { like: updatedLikes });
-      console.log('Like incremented successfully');
     } else if (productData && mode === 'down' && productData.like > 0) {
       // 상품 좋아요 -1
       const updatedLikes = productData.like - 1;
       await updateDoc(productDocRef, { like: updatedLikes });
-      console.log('Like decremented successfully');
     } else {
-      console.log('Invalid mode or like count already at 0');
+      // console.log('Invalid mode or like count already at 0');
     }
   } catch (error) {
     console.error('Error changing product like:', error);
@@ -105,15 +103,11 @@ const changeProductState = async ({
           await changeProductLike(pid, 'up');
         }
       }
-
-      console.log('Toggle successful');
     } else {
       // If the field does not exist, create it with an array containing pid
       await updateDoc(userDocRef, {
         [mode]: [pid]
       });
-
-      console.log('Field created with initial data');
 
       // Call changeProductLike to increment the 'like' field
       await changeProductLike(pid, 'up');

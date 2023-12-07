@@ -1,5 +1,5 @@
-import { FirestoreError, addDoc, collection, deleteDoc, doc, getDoc, getDocs } from 'firebase/firestore';
-import { db, storage } from '../../firebase/firebase';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs } from 'firebase/firestore';
+import { db, storage } from '../firebase';
 import { deleteObject, getDownloadURL, getStorage, list, listAll, ref, uploadBytes } from 'firebase/storage';
 import { Product } from '../../static/const/type';
 
@@ -40,9 +40,9 @@ const getAllProductData = async (): Promise<Product[]> => {
 
 /**
  * 유저 좋아요 또는 장바구니 리스트를 가져옵니다.
- * @param uid: 유저 id 
+ * @param uid: 유저 id
  * @param mode: 좋아요 혹은 장바구니 (mode)
- * @returns 
+ * @returns
  */
 const getUserInteractedItems = async ({
   uid,
@@ -51,15 +51,12 @@ const getUserInteractedItems = async ({
   uid: string;
   mode: 'likedProducts' | 'addedProducts';
 }): Promise<Product[]> => {
-  // console.log('user id==>>', uid);
-
   try {
     const userInteractDocRef = doc(db, 'user_interact', uid);
     const userInteractDocSnapshot = await getDoc(userInteractDocRef);
 
     if (userInteractDocSnapshot.exists()) {
       const likeList = userInteractDocSnapshot.data()?.[mode] || [];
-      console.log('User Likes:', likeList);
 
       const productList = await Promise.all(
         likeList.map(async (pid: string) => {
@@ -81,17 +78,16 @@ const getUserInteractedItems = async ({
               like: productDocSnapshot.data().like
             };
           } else {
-            console.log(`Product with ID ${pid} does not exist.`);
+            // console.log(`Product with ID ${pid} does not exist.`);
             return null;
           }
         })
       );
 
       const filteredProductList = productList.filter((product) => product !== null);
-      console.log('Product List:', filteredProductList);
       return filteredProductList;
     } else {
-      console.log('User document does not exist.');
+      // console.log('User document does not exist.');
       return [];
     }
   } catch (error) {
@@ -102,7 +98,7 @@ const getUserInteractedItems = async ({
 
 /**
  * Firebase에 상품을 임의의 pid로 저장합니다.
- * @param param0 
+ * @param param0
  */
 const addProduct = async ({
   name,
@@ -166,11 +162,9 @@ const uploadImage = async (image: File, key: number, productId: string) => {
     const storageRef = ref(storage, `products/${productId}/image_${key}`);
 
     // 'file' comes from the Blob or File API
-    await uploadBytes(storageRef, image).then((snapshot) => {
-      console.log('Uploaded a blob or file!');
-    });
+    await uploadBytes(storageRef, image).then((snapshot) => {});
   } catch (error) {
-    console.log(error);
+    console.error('failed upload Image:', error);
   }
 };
 

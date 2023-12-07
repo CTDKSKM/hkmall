@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Product } from '../static/const/type';
 import { currentUserState } from '../atom/currentUserState';
-import { constSelector, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import useUserInteractedItemsQuery from '../hooks/useUserLikeQuery';
 import LoadingIndicator from '../components/COMMON/LoadingIndicator';
 import BasketCard from '../components/COMMON/BasketCard';
@@ -37,8 +37,6 @@ const MyProductBasket = (props: Props) => {
       setFilteredProducts(data);
     }
     if (filteredProducts !== null) {
-      // console.log(filteredProducts);
-
       makeTotal();
     }
   }, [data, filteredProducts]);
@@ -49,7 +47,7 @@ const MyProductBasket = (props: Props) => {
     return <LoadingIndicator />;
   }
   if (isError) {
-    console.log('에러가 발생했습니다');
+    return <>에러가 발생했습니다</>;
   }
 
   return (

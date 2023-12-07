@@ -8,4 +8,8 @@ function uncomma(str: string) {
   return str.replace(/[^\d]+/g, '');
 }
 
-export { comma, uncomma };
+function inputNumberFormat(value: string) {
+  return comma(uncomma(value));
+}
+
+export { comma, uncomma, inputNumberFormat };
