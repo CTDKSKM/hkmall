@@ -37,7 +37,7 @@ const MyProductBasket = (props: Props) => {
       setFilteredProducts(data);
     }
     if (filteredProducts !== null) {
-      console.log(filteredProducts);
+      // console.log(filteredProducts);
 
       makeTotal();
     }

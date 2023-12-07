@@ -7,6 +7,8 @@ import LoadingIndicator from '../components/COMMON/LoadingIndicator';
 import { category } from '../atom/currentCategory';
 
 import { useLocation } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { productData } from '../atom/productData';
 
 type Props = {};
 
@@ -18,6 +20,12 @@ const Home = (props: Props) => {
   const location = useLocation();
 
   const [path, setPath] = useState('');
+  const setData = useSetRecoilState(productData);
+  useEffect(() => {
+    if (data) {
+      setData(data);
+    }
+  }, []);
 
   useEffect(() => {
     setPath(location.pathname);
