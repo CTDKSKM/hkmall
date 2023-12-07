@@ -37,6 +37,13 @@ const getAllProductData = async (): Promise<Product[]> => {
     throw error;
   }
 };
+
+/**
+ * 유저 좋아요 또는 장바구니 리스트를 가져옵니다.
+ * @param uid: 유저 id
+ * @param mode: 좋아요 혹은 장바구니 (mode)
+ * @returns
+ */
 const getUserInteractedItems = async ({
   uid,
   mode
@@ -89,7 +96,10 @@ const getUserInteractedItems = async ({
   }
 };
 
-// 임의의 이름의 데이터를 문서로 저장
+/**
+ * Firebase에 상품을 임의의 pid로 저장합니다.
+ * @param param0
+ */
 const addProduct = async ({
   name,
   price,
