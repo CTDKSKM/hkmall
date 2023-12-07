@@ -7,7 +7,7 @@
 
 **배포 링크**: https://hkmall-one.vercel.app/
 
-
+## :partying_face: 주요 기능
 ### :boxing_glove: 개발기간
 
 **(23.11.20~23.12.05)**
