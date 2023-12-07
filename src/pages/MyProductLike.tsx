@@ -7,7 +7,7 @@ import { Product } from '../static/const/type';
 import useUserInteractedItemsQuery from '../hooks/useUserLikeQuery';
 
 import LoadingIndicator from '../components/COMMON/LoadingIndicator';
-import LikeProductCard from '../components/COMMON/LikeProductCard';
+import LikeProductCard from '../components/MyProductLike/LikeProductCard';
 
 type Props = {};
 

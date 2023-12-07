@@ -7,6 +7,7 @@ import useProductQuery from '../../hooks/useProductQuery';
 import { currentPushedLike } from '../../atom/currentPushedLike';
 import { hasPushedLike } from '../../firebase/fireStore/userInteract';
 import debounce from 'lodash/debounce';
+import { useNavigate } from 'react-router-dom';
 
 type Props = { item: Product };
 
@@ -14,15 +15,20 @@ const LikeContainer = ({ item }: Props) => {
   const { updateLikeMutation } = useProductQuery();
   const [isLiked, setIsLiked] = useState(false);
   const setIsLike = useSetRecoilState(currentPushedLike);
+  const navi = useNavigate();
 
   const user = useRecoilValue(currentUserState);
   const handleClickLikeButton = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
+    if (!user) {
+      const check = window.confirm('로그인 하시겠습니까?');
+      if (check) navi('/login');
+      return;
+    }
     setIsLike(isLiked);
     setIsLiked(!isLiked);
-    if (user) {
-      updateLikeMutation.mutate({ uid: user.uid, pid: item.id, mode: 'likedProducts' });
-    }
+
+    updateLikeMutation.mutate({ uid: user.uid, pid: item.id, mode: 'likedProducts' });
   };
   useEffect(() => {
     hasPushedLike(user?.uid!, item.id!, 'likedProducts').then((pushed) => {

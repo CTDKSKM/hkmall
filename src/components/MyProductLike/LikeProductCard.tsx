@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Product, User } from '../../static/const/type';
 import { AiFillHeart } from 'react-icons/ai';
 import useProductQuery from '../../hooks/useProductQuery';
-import CofirmationBox from './CofirmationBox';
+import CofirmationBox from '../COMMON/CofirmationBox';
 
 type Props = {
   product: Product;
