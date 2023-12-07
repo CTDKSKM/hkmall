@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { currentUserState } from '../atom/currentUserState';
 import { useRecoilValue } from 'recoil';
-import ProductCard from '../components/COMMON/ProductCard';
 import { Product } from '../static/const/type';
 
 import useUserInteractedItemsQuery from '../hooks/useUserLikeQuery';
@@ -17,7 +16,7 @@ const MyProductLike = (props: Props) => {
   const user = useRecoilValue(currentUserState);
 
   const { data, isLoading, isError, refetch } = useUserInteractedItemsQuery(user?.uid || '', 'likedProducts');
-  
+
   useEffect(() => {
     if (data) {
       setFilteredProducts(data);
@@ -45,7 +44,6 @@ const MyProductLike = (props: Props) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {/* 카드 반복 */}
           {filteredProducts.map((item: Product, key: number) => (
-            // <ProductCard item={item} key={key} />
             <LikeProductCard product={item} user={user} key={key} />
           ))}
         </div>

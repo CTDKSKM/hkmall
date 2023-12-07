@@ -1,5 +1,3 @@
-// import AdminController from './AdminController';
-
 import { category } from '../../atom/currentCategory';
 import SearchBox from '../SearchPage/SearchBox';
 import { useLocation, useNavigate } from 'react-router-dom';

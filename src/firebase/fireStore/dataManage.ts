@@ -1,5 +1,5 @@
-import { FirestoreError, addDoc, collection, deleteDoc, doc, getDoc, getDocs } from 'firebase/firestore';
-import { db, storage } from '../../firebase/firebase';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs } from 'firebase/firestore';
+import { db, storage } from '../firebase';
 import { deleteObject, getDownloadURL, getStorage, list, listAll, ref, uploadBytes } from 'firebase/storage';
 import { Product } from '../../static/const/type';
 
@@ -44,15 +44,12 @@ const getUserInteractedItems = async ({
   uid: string;
   mode: 'likedProducts' | 'addedProducts';
 }): Promise<Product[]> => {
-  console.log('user id==>>', uid);
-  console.log('get!');
   try {
     const userInteractDocRef = doc(db, 'user_interact', uid);
     const userInteractDocSnapshot = await getDoc(userInteractDocRef);
 
     if (userInteractDocSnapshot.exists()) {
       const likeList = userInteractDocSnapshot.data()?.[mode] || [];
-      console.log('User Likes:', likeList);
 
       const productList = await Promise.all(
         likeList.map(async (pid: string) => {
@@ -74,17 +71,16 @@ const getUserInteractedItems = async ({
               like: productDocSnapshot.data().like
             };
           } else {
-            console.log(`Product with ID ${pid} does not exist.`);
+            // console.log(`Product with ID ${pid} does not exist.`);
             return null;
           }
         })
       );
 
       const filteredProductList = productList.filter((product) => product !== null);
-      console.log('Product List:', filteredProductList);
       return filteredProductList;
     } else {
-      console.log('User document does not exist.');
+      // console.log('User document does not exist.');
       return [];
     }
   } catch (error) {
@@ -156,11 +152,9 @@ const uploadImage = async (image: File, key: number, productId: string) => {
     const storageRef = ref(storage, `products/${productId}/image_${key}`);
 
     // 'file' comes from the Blob or File API
-    await uploadBytes(storageRef, image).then((snapshot) => {
-      console.log('Uploaded a blob or file!');
-    });
+    await uploadBytes(storageRef, image).then((snapshot) => {});
   } catch (error) {
-    console.log(error);
+    console.error('failed upload Image:', error);
   }
 };
 

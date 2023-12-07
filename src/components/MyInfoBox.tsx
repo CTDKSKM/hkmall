@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from '../atom/currentUserState';
 
@@ -7,7 +7,6 @@ type Props = {};
 
 const MyInfoBox = (props: Props) => {
   const navi = useNavigate();
-  const { uid } = useParams();
   const user = useRecoilValue(currentUserState);
 
   return (

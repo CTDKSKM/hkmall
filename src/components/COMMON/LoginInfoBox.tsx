@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { browserSessionPersistence, onAuthStateChanged, setPersistence } from 'firebase/auth';
-import { signOut } from '../../firebase/userManage';
+import { signOut } from '../../firebase/auth/userManage';
 import { User } from '../../static/const/type';
 import { useRecoilState } from 'recoil';
 import { auth } from '../../firebase/firebase';
