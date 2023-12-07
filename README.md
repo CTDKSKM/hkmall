@@ -89,7 +89,7 @@
 #### 📜firebase.ts: Firebase 환경 설정 파일입니다.
 #### 📜dataManage.ts: DB에 담긴 전체 상품 데이터와 유저의 좋아요, 장바구니 리스트를 가져오는 비동기 함수들이 있습니다.
 #### 📜ProductDetailPage.ts: 제품의 상세 정보들을 가져오고 좋아요, 장바구니 유무에 따라 정보를 관리 해줍니다.
-
+#### 📜GoogleLoginButton.ts: 인증 정보를 통해 구글 로그인 관리를 해줍니다.
 
 
 <br/><br/>
