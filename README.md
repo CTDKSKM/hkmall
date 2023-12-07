@@ -79,10 +79,10 @@
 
 ## :sunglasses:주요 파일 및 폴더
 
-#### 📜 useProductQuery.tsx, useUserLikeQuery.tsx: 유저가 상품에 대한 상호작용을 react-query문으로 제어할 수 있는 파일들.
-#### 📜Router.tsx: 사용할 때 페이지를 이동할 때 필요한 라이브러리가 담긴 파일이다.
-#### - example.ts: 설명
-#### - example.ts: 설명
+#### 📜 useProductQuery.tsx, useUserLikeQuery.tsx: 유저가 상품에 대한 상호작용을 react-query문으로 제어할 수 있는 파일들입니다.
+#### 📜Router.tsx: 사용할 때 페이지를 이동할 때 필요한 라이브러리가 담긴 파일입니다.
+#### 📜firebase.ts: Firebase 환경 설정 파일입니다.
+#### 📜dataManage.ts: DB에 담긴 전체 상품 데이터와 유저의 좋아요, 장바구니 리스트를 가져오는 비동기 함수들이 있습니다.
 
 
 
