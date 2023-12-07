@@ -1,7 +1,6 @@
 import React from 'react';
 import { Product } from '../../static/const/type';
 import { Link } from 'react-router-dom';
-import { AiFillHeart } from 'react-icons/ai';
 import LikeContainer from './LikeContainer';
 
 type Props = {
@@ -27,10 +26,6 @@ const ProductCard = ({ item }: Props) => {
 
           <div className="flex justify-end">
             <LikeContainer item={item} />
-            {/* <div className="text-gray-700 flex items-center z-50">
-              <AiFillHeart size={20} color="red" />
-              {item.like}
-            </div> */}
           </div>
         </div>
       </div>

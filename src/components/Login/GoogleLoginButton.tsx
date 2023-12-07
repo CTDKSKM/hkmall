@@ -2,6 +2,7 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import React from 'react';
 import { auth } from '../../firebase/firebase';
 import { useNavigate } from 'react-router-dom';
+import debounce from 'lodash/debounce';
 
 type Props = {};
 
@@ -23,7 +24,7 @@ const GoogleLoginButton = (props: Props) => {
         const token = credential!.accessToken;
 
         if (user) {
-          // alert('로그인 완료!');
+          alert('로그인 완료!');
           navi('/');
         }
       })
@@ -40,7 +41,7 @@ const GoogleLoginButton = (props: Props) => {
   };
 
   return (
-    <button onClick={loginWithGoogle} type="button" className="socialLoginButton">
+    <button onClick={debounce(loginWithGoogle, 250)} type="button" className="socialLoginButton">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
         <path
           d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"

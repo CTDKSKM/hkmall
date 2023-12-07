@@ -5,13 +5,13 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { currentUserState } from '../../atom/currentUserState';
 import useProductQuery from '../../hooks/useProductQuery';
 import { currentPushedLike } from '../../atom/currentPushedLike';
-import { hasPushedLike } from '../../utils/fireStore/userInteract';
+import { hasPushedLike } from '../../firebase/fireStore/userInteract';
 import debounce from 'lodash/debounce';
 
 type Props = { item: Product };
 
 const LikeContainer = ({ item }: Props) => {
-  const { updateProductMutation } = useProductQuery();
+  const { updateLikeMutation } = useProductQuery();
   const [isLiked, setIsLiked] = useState(false);
   const setIsLike = useSetRecoilState(currentPushedLike);
 
@@ -21,7 +21,7 @@ const LikeContainer = ({ item }: Props) => {
     setIsLike(isLiked);
     setIsLiked(!isLiked);
     if (user) {
-      updateProductMutation.mutate({ uid: user.uid, pid: item.id, mode: 'likedProducts' });
+      updateLikeMutation.mutate({ uid: user.uid, pid: item.id, mode: 'likedProducts' });
     }
   };
   useEffect(() => {

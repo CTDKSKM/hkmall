@@ -1,7 +1,8 @@
-import { FacebookAuthProvider, signInWithPopup } from 'firebase/auth';
 import React from 'react';
+import { FacebookAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../firebase/firebase';
 import { useNavigate } from 'react-router-dom';
+import debounce from 'lodash/debounce';
 
 type Props = {};
 
@@ -21,7 +22,7 @@ const FacebookLoginButton = (props: Props) => {
         const accessToken = credential!.accessToken;
         console.log('성공!', user, credential, accessToken);
         if (user) {
-          // alert('로그인 완료!');
+          alert('로그인 완료!');
           navi('/');
         }
       })
@@ -39,7 +40,7 @@ const FacebookLoginButton = (props: Props) => {
   };
 
   return (
-    <button onClick={LoginWithFacebook} type="button" className="socialLoginButton">
+    <button onClick={debounce(LoginWithFacebook, 250)} type="button" className="socialLoginButton">
       <svg width="28" height="28" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="none">
         <path
           fill="#1877F2"

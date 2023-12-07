@@ -1,9 +1,8 @@
 // userManage.ts
 
 import 'firebase/auth';
-import { auth } from './firebase';
-import { User } from '../static/const/type';
-import { HK_USER } from '../static/const/variable';
+import { auth } from '../firebase';
+import { HK_USER } from '../../static/const/variable';
 
 export const signOut = async () => {
   try {
@@ -15,9 +14,4 @@ export const signOut = async () => {
     console.error('Error signing out:', error);
     throw error;
   }
-};
-
-export const isLogin = () => {
-  const userData = sessionStorage.getItem(HK_USER);
-  return userData == null ? null : (JSON.parse(userData!) as User);
 };

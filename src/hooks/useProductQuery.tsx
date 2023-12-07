@@ -1,13 +1,11 @@
 import React from 'react';
-import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { addProduct, deleteProduct, getAllProductData } from '../utils/fireStore/dataManage';
-import { changeProductState } from '../utils/fireStore/userInteract';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { addProduct, deleteProduct, getAllProductData } from '../firebase/fireStore/dataManage';
+import { changeProductState } from '../firebase/fireStore/userInteract';
 import { Product } from '../static/const/type';
 import { useRecoilValue } from 'recoil';
 import { currentPushedLike } from '../atom/currentPushedLike';
 import { useNavigate } from 'react-router-dom';
-import { USER_ITEMS_QUERY_KEY } from './useUserLikeQuery';
-import { currentUserState } from '../atom/currentUserState';
 
 export const ALL_PRODUCT_QUERY_KEY = 'getAllProduct';
 
@@ -15,7 +13,6 @@ const useProductQuery = () => {
   const queryClient = useQueryClient();
   const isPushed = useRecoilValue(currentPushedLike);
   const navi = useNavigate();
-  const user = useRecoilValue(currentUserState);
   const { isLoading, isFetching, isError, data, error } = useQuery({
     queryKey: [ALL_PRODUCT_QUERY_KEY],
     queryFn: getAllProductData
@@ -35,10 +32,9 @@ const useProductQuery = () => {
       await queryClient.invalidateQueries({ queryKey: [ALL_PRODUCT_QUERY_KEY] });
       navi('/mypage/basket');
     }
-    
   });
 
-  const updateProductMutation = useMutation({
+  const updateLikeMutation = useMutation({
     mutationFn: changeProductState,
     onMutate: async (newData) => {
       await queryClient.cancelQueries({ queryKey: [ALL_PRODUCT_QUERY_KEY] });
@@ -88,7 +84,7 @@ const useProductQuery = () => {
     data,
     error,
     addProductMutation,
-    updateProductMutation,
+    updateLikeMutation,
     deleteProductMutation,
     updateBasketMutation
   };

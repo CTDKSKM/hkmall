@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getUserInteractedItems } from '../utils/fireStore/dataManage';
+import { getUserInteractedItems } from '../firebase/fireStore/dataManage';
 
 export const USER_ITEMS_QUERY_KEY = 'userLikes';
 

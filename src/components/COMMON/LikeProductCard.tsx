@@ -10,19 +10,19 @@ type Props = {
 };
 
 const LikeProductCard = ({ product, user }: Props) => {
-  const { updateProductMutation } = useProductQuery();
+  const { updateLikeMutation } = useProductQuery();
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const cofirmHandler = () => {
     setIsConfirmOpen(false);
 
-    updateProductMutation.mutate({ uid: user!.uid, pid: product.id, mode: 'likedProducts' });
+    updateLikeMutation.mutate({ uid: user!.uid, pid: product.id, mode: 'likedProducts' });
   };
   const cancelHandler = () => {
     setIsConfirmOpen(false);
   };
-  if (updateProductMutation.isSuccess) {
+  if (updateLikeMutation.isSuccess) {
     window.location.reload();
     alert('삭제되었습니다');
   }
