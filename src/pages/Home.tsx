@@ -9,6 +9,7 @@ import { category } from '../atom/currentCategory';
 import { useLocation } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { productData } from '../atom/productData';
+import { auth } from '../firebase/firebase';
 
 type Props = {};
 
