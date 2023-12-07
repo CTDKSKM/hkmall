@@ -80,7 +80,7 @@
 ## :sunglasses:주요 파일 및 폴더
 
 #### 📜 useProductQuery.tsx, useUserLikeQuery.tsx: 유저가 상품에 대한 상호작용을 react-query문으로 제어할 수 있는 파일들.
-#### 📜Router.tsx: 사용할 때 페이지를 이동할 때 필요한 라이브러리이다.
+#### 📜Router.tsx: 사용할 때 페이지를 이동할 때 필요한 라이브러리가 담긴 파일이다.
 #### - example.ts: 설명
 #### - example.ts: 설명
 
