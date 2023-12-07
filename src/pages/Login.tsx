@@ -24,9 +24,10 @@ const Login = (props: Props) => {
   };
   const confirmLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, pass);
-
+     
       const user = userCredential.user;
       alert('로그인 완료!');
       navi('/');
@@ -46,7 +47,7 @@ const Login = (props: Props) => {
           </div>
 
           <div className="mb-12 md:mb-0 md:w-8/12 lg:w-5/12 xl:w-5/12">
-            <form onSubmit={debounce(confirmLogin, 250)}>
+            <form onSubmit={confirmLogin}>
               <div className="flex flex-row items-center justify-center lg:justify-start">
                 <p className="mb-0 mr-4 text-lg">Sign in with</p>
                 <FacebookLoginButton />
