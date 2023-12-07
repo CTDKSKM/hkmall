@@ -54,6 +54,7 @@ const ProductDetailPage = (props: Props) => {
   // 장바구니 클릭 핸들러
   const handleConfirm = () => {
     setIsConfirmOpen(false);
+
     if (currentUser && detailData) {
       // 이미 장바구니에 있거나 없거나
       if (isInBasket) {
@@ -64,7 +65,7 @@ const ProductDetailPage = (props: Props) => {
 
         setInBasket(true);
       }
-    } else navi('/login');
+    }
   };
 
   const handleCancel = () => {
@@ -87,7 +88,12 @@ const ProductDetailPage = (props: Props) => {
       window.location.href = href;
     }
   };
-
+  const buyButtonHandler = () => {
+    console.log(currentUser);
+    if (!currentUser) {
+      navi('/login');
+    }
+  };
   return (
     <div className="w-full lg:flex justify-between max-h-15.5">
       <div className="lg:w-3/5 sm:h-2/5">
@@ -127,13 +133,19 @@ const ProductDetailPage = (props: Props) => {
         </div>
 
         <div className="my-5 flex">
-          <button className="bg-black text-white sm:text-2xl md:text-3xl lg:text-4xl p-4">
+          <button onClick={buyButtonHandler} className="bg-black text-white sm:text-2xl md:text-3xl lg:text-4xl p-4">
             {currentUser ? '바로구매' : '회원전용'}
           </button>
 
           <div
             className="p-5 border-black border-2 hover:cursor-pointer"
-            onClick={() => setIsConfirmOpen((prev) => !prev)}
+            onClick={() => {
+              if (!currentUser) {
+                navi('/login');
+              } else {
+                setIsConfirmOpen((prev) => !prev);
+              }
+            }}
           >
             <AiFillShopping size={30} color={isInBasket ? '#429ceb' : 'black'} />
           </div>
