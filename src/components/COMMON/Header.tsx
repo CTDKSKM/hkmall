@@ -36,7 +36,7 @@ const Header = (props: Props) => {
 
         <nav className="bg-gray-800 text-white py-4 flex justify-between items-center px-5">
           <ul className="flex justify-between space-x-4">
-            <li>
+            <li className="hidden md:block">
               <Link to="/" className="hover:text-gray-300">
                 홈
               </Link>
