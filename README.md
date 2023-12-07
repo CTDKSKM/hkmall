@@ -7,7 +7,6 @@
 
 **배포 링크**: https://hkmall-one.vercel.app/
 
-***
 
 ### :boxing_glove: 개발기간
 
