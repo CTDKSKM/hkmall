@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
 import FacebookLoginButton from '../components/Login/FacebookLoginButton';
@@ -8,6 +8,8 @@ import GoogleLoginButton from '../components/Login/GoogleLoginButton';
 import InputField from '../components/COMMON/InputField';
 import Logo from '../assets/images/logo.png';
 import debounce from 'lodash/debounce';
+import KakaoLoginButton from '../components/Login/KakaoLoginButton';
+import KakaoCallback from '../components/Login/KakaoCallback';
 
 type Props = {};
 
@@ -27,7 +29,7 @@ const Login = (props: Props) => {
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, pass);
-     
+
       const user = userCredential.user;
       alert('로그인 완료!');
       navi('/');
@@ -40,6 +42,7 @@ const Login = (props: Props) => {
 
   return (
     <section className="h-screen">
+      <KakaoCallback />
       <div className="h-full">
         <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
           <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12">
@@ -53,6 +56,7 @@ const Login = (props: Props) => {
                 <FacebookLoginButton />
 
                 <GoogleLoginButton />
+                <KakaoLoginButton />
               </div>
 
               <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">

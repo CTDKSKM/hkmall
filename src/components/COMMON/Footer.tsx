@@ -9,11 +9,11 @@ const Footer: React.FC = () => {
       <div className="container mx-auto my-10 flex flex-col items-center justify-center">
         <div className="flex space-x-4 my-3">
           {/* 깃허브 */}
-          <a href="example.com" target="_blank" rel="noopener noreferrer">
+          <a href="#" rel="noopener noreferrer">
             <AiFillGithub className="w-[50px] h-[50px] footerIcon mx-1" />
           </a>
           {/* 티스토리 */}
-          <a href="example.com" target="_blank" rel="noopener noreferrer">
+          <a href="#" rel="noopener noreferrer">
             <SiTistory className="w-[40px] h-[40px] footerIcon mt-2  mx-1" />
           </a>
         </div>

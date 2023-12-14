@@ -14,6 +14,7 @@ const GoogleLoginButton = (props: Props) => {
     provider.setCustomParameters({
       login_hint: 'user@example.com'
     });
+
     signInWithPopup(auth, provider)
       .then((result) => {
         // The signed-in user info.
